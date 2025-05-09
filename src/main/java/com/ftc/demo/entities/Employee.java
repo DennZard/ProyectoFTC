@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 	@NonNull
 	private String name;
 	@NonNull
