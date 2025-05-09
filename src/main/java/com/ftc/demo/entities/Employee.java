@@ -32,6 +32,6 @@ public class Employee {
 	@NonNull
 	private String phone;
 	@NonNull
-	@OneToMany
-	private List<Delivery> deliveries= new ArrayList<>();
+	@OneToMany(mappedBy = "employee")
+	private List<Delivery> deliveries=new ArrayList<>();
 }

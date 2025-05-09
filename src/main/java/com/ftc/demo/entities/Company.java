@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.NonNull;
@@ -22,6 +21,6 @@ public class Company {
 	@OneToOne
 	private Customer owner;
 	@NonNull
-	@OneToMany
+	@OneToMany(mappedBy = "company")
 	private List<Product> products;
 }

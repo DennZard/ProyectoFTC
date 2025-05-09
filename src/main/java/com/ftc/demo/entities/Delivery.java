@@ -1,5 +1,6 @@
 package com.ftc.demo.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,14 +17,14 @@ public class Delivery {
 	@ManyToOne
 	private Customer customer;
 	@NonNull
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Status status;
 	@NonNull
 	private String destination;
 	@NonNull
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Employee employee;
 	@NonNull
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Product product;
 }
