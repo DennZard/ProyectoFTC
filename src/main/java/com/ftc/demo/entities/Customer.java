@@ -7,31 +7,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
-@NoArgsConstructor
-@RequiredArgsConstructor
-@Data
-public class Employee {
+public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@NonNull
-	private String name;
-	@NonNull
-	private String lastName;
-	@NonNull
 	@Email
+	@NonNull
 	private String email;
+	@NonNull
+	private String username;
+	@NonNull
+	private String password;
 	@NonNull
 	private String phone;
 	@NonNull
-	@OneToMany
-	private List<Delivery> deliveries= new ArrayList<>();
+	@ManyToMany
+	private List<Roles> roles = new ArrayList<>();
+
 }
