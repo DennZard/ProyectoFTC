@@ -13,5 +13,6 @@ public interface ProductController {
 	public ResponseEntity<ProductDTO> deleteProduct(long id);
 	public ResponseEntity<ProductDTO> getProduct(long id);
 	public ResponseEntity<Boolean> updateProduct(ProductDTO productDTO);
-	ResponseEntity<Boolean> saveProduct(ProductDTO productDTO);
+	public ResponseEntity<Boolean> saveProduct(ProductDTO productDTO);
+	public ResponseEntity<List<ProductSummaryDTO>> getAll();
 }

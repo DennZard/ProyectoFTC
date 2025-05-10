@@ -5,18 +5,22 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ftc.demo.DTOs.ProductDTO;
+import com.ftc.demo.controllers.ProductSummaryDTO;
 import com.ftc.demo.entities.Product;
 import com.ftc.demo.mapper.ProductMapper;
+import com.ftc.demo.mapper.ProductSummaryMapper;
 import com.ftc.demo.repositories.ProductRepository;
 
 public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
 	private final ProductMapper productMapper;
+	private final ProductSummaryMapper productSummaryMapper;
 	
-	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper) {
 		super();
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
+		this.productSummaryMapper = productSummaryMapper;
 		
 	}
 
@@ -77,5 +81,17 @@ public class ProductServiceImpl implements ProductService {
 			return Optional.of(productMapper.mapToDTO(byId.get()));
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public List<ProductSummaryDTO> getAll() {
+		List<Product> all = productRepository.findAll();
+		if (all.isEmpty()) {
+			return new ArrayList<>();
+		} else {
+			return all.stream()
+					.map(productSummaryMapper::mapToDTO)
+					.toList();
+		}
 	}
 }

@@ -27,6 +27,16 @@ public class ProductControllerImpl implements ProductController {
 		this.productService = productService;
 	}
 
+	@Override
+	public ResponseEntity<List<ProductSummaryDTO>> getAll() {
+		List<ProductSummaryDTO> products = productService.getAll();
+		if (!products.isEmpty()) {
+			return ResponseEntity.ok().body(products);
+		} else {
+			return ResponseEntity.badRequest().eTag("No se encontraron productos").body(null);
+		}
+	}
+
 	// Para admin
 	@Override
 	@GetMapping("full")
@@ -47,7 +57,7 @@ public class ProductControllerImpl implements ProductController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(false);
 		}
-		
+
 	}
 
 	@Override
