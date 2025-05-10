@@ -40,10 +40,14 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	@PutMapping("byId")
-	public ResponseEntity<Boolean> updateProduct() {
-		// TODO Auto-generated method stub
-		return null;
+	@PutMapping("update")
+	public ResponseEntity<Boolean> updateProduct(ProductDTO productDTO) {
+		try {
+			return ResponseEntity.ok().body(productService.updateProduct(productDTO));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(false);
+		}
+		
 	}
 
 	@Override
@@ -58,10 +62,13 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	@PostMapping("byId")
-	public ResponseEntity<Boolean> saveProduct() {
-		ResponseEntity<Boolean> responseEntity = null;
-		return null;
+	@PostMapping("save")
+	public ResponseEntity<Boolean> saveProduct(ProductDTO productDTO) {
+		try {
+			return ResponseEntity.ok().body(productService.saveProduct(productDTO));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().eTag("No se pudo eliminar el producto").body(null);
+		}
 	};
 
 	@Override
