@@ -30,9 +30,9 @@ public class Product {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Category category;
 	@NonNull
-	private Float decimal;
+	private float price;
 	@NonNull
-	private int Sells;
+	private int sells;
 	@NonNull
 	private Date added;
 	@NonNull

@@ -3,13 +3,12 @@ package com.ftc.demo.services;
 import java.util.List;
 import java.util.Optional;
 
-
-import com.ftc.demo.entities.Product;
+import com.ftc.demo.DTOs.ProductDTO;
 
 public interface ProductService {
-	public List<Product> getAllProducts();
-	public boolean updateProduct();
-	public Optional<Product> deleteProduct(long id);
-	public boolean saveProduct();
-	public Optional<Product> getProduct(long id);
+	public List<ProductDTO> getAllProducts();
+	public boolean updateProduct(ProductDTO productoDTO);
+	public Optional<ProductDTO> deleteProduct(long id);
+	public Optional<ProductDTO> getProduct(long id);
+	boolean saveProduct(ProductDTO productDTO) throws Exception;
 }

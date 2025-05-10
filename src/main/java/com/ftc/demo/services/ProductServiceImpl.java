@@ -1,53 +1,81 @@
 package com.ftc.demo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.entities.Product;
+import com.ftc.demo.mapper.ProductMapper;
 import com.ftc.demo.repositories.ProductRepository;
 
 public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
+	private final ProductMapper productMapper;
 	
-	public ProductServiceImpl(ProductRepository productRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
 		super();
 		this.productRepository = productRepository;
+		this.productMapper = productMapper;
+		
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
+	public List<ProductDTO> getAllProducts() {
+		List<Product> all = productRepository.findAll();
+		if (all.isEmpty()) {
+			return new ArrayList<>();
+		} else {
+			return all.stream()
+					.map(productMapper::mapToDTO)
+					.toList();
+		}
 	}
 
 	@Override
-	public boolean updateProduct() {
-		// TODO Auto-generated method stub
+	public boolean updateProduct(ProductDTO productoDTO) {
+		if (productoDTO.id()== null)  throw new IllegalArgumentException("El id no existe"); 
+		if (productRepository.existsById(productoDTO.id())) {
+			try {
+				productRepository.deleteById(productoDTO.id());
+				productRepository.save(productMapper.mapToEntity(productoDTO));
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public Optional<Product> deleteProduct(long id) {
+	public Optional<ProductDTO> deleteProduct(long id) {
 		Optional<Product> byId = productRepository.findById(id);
 		if(byId.isPresent()) {
 			productRepository.deleteById(id);
-			return byId;
+			return Optional.of(productMapper.mapToDTO(byId.get()));
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public boolean saveProduct() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveProduct(ProductDTO productDTO) throws Exception {
+		if (productDTO.id() == null) throw new IllegalArgumentException("No se proporciona id");
+		//TODO poner la excepcion en concreto
+		if (productRepository.existsById(productDTO.id())) throw new Exception("El producto ya existe");
+		try {
+			productRepository.save(productMapper.mapToEntity(productDTO));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public Optional<Product> getProduct(long id) {
+	public Optional<ProductDTO> getProduct(long id) {
 		Optional<Product> byId = productRepository.findById(id);
 		if (byId.isPresent()) {
-			return byId;
+			return Optional.of(productMapper.mapToDTO(byId.get()));
 		}
 		return Optional.empty();
 	}
-
 }
