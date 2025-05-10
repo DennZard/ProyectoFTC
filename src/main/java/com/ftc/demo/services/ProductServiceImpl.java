@@ -21,7 +21,19 @@ public class ProductServiceImpl implements ProductService {
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
 		this.productSummaryMapper = productSummaryMapper;
-		
+	}
+	
+	@Override
+	public List<ProductSummaryDTO> getByPrefix(String prefix) throws IllegalArgumentException {
+		if (prefix == null || prefix == "" || prefix == " ") throw new IllegalArgumentException("Debes proporcionar un prefijo");
+		List<Product> products = productRepository.findByNameIgnoreCaseStartingWith(prefix);
+		if (!products.isEmpty()) {
+			return products
+					.stream()
+					.map(productSummaryMapper::mapToDTO)
+					.toList();
+		}
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -37,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean updateProduct(ProductDTO productoDTO) {
+	public boolean updateProduct(ProductDTO productoDTO) throws IllegalArgumentException {
 		if (productoDTO.id()== null)  throw new IllegalArgumentException("El id no existe"); 
 		if (productRepository.existsById(productoDTO.id())) {
 			try {
@@ -52,7 +64,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Optional<ProductDTO> deleteProduct(long id) {
+	public Optional<ProductDTO> deleteProduct(long id) throws IllegalArgumentException {
+		if (id == 0) throw new IllegalArgumentException("No se proporciona id");
 		Optional<Product> byId = productRepository.findById(id);
 		if(byId.isPresent()) {
 			productRepository.deleteById(id);
@@ -75,7 +88,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Optional<ProductDTO> getProduct(long id) {
+	public Optional<ProductDTO> getProduct(long id) throws IllegalArgumentException {
+		if (id == 0) throw new IllegalArgumentException("No se proporciona id");
 		Optional<Product> byId = productRepository.findById(id);
 		if (byId.isPresent()) {
 			return Optional.of(productMapper.mapToDTO(byId.get()));
@@ -94,4 +108,6 @@ public class ProductServiceImpl implements ProductService {
 					.toList();
 		}
 	}
+
+	
 }

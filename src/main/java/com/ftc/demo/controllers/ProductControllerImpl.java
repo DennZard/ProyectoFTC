@@ -3,6 +3,7 @@ package com.ftc.demo.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.query.NativeQuery.ReturnableResultNode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.ProductDTO;
@@ -27,6 +29,20 @@ public class ProductControllerImpl implements ProductController {
 		this.productService = productService;
 	}
 
+	@Override
+	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(@RequestParam String prefix) {
+		try {
+			List<ProductSummaryDTO> products = productService.getByPrefix(prefix);
+			if (!products.isEmpty()) {
+				return ResponseEntity.ok().body(products);
+			}
+			return ResponseEntity.badRequest().eTag("No se encontraron productos").body(null);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
+		}
+		
+	}
+	
 	@Override
 	public ResponseEntity<List<ProductSummaryDTO>> getAll() {
 		List<ProductSummaryDTO> products = productService.getAll();
@@ -54,7 +70,7 @@ public class ProductControllerImpl implements ProductController {
 	public ResponseEntity<Boolean> updateProduct(ProductDTO productDTO) {
 		try {
 			return ResponseEntity.ok().body(productService.updateProduct(productDTO));
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(false);
 		}
 
@@ -90,5 +106,7 @@ public class ProductControllerImpl implements ProductController {
 		}
 		return ResponseEntity.badRequest().eTag("No se encontro el producto").body(null);
 	}
+
+	
 
 }

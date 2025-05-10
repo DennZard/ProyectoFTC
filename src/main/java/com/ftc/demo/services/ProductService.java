@@ -11,6 +11,8 @@ public interface ProductService {
 	public boolean updateProduct(ProductDTO productoDTO);
 	public Optional<ProductDTO> deleteProduct(long id);
 	public Optional<ProductDTO> getProduct(long id);
+	//TODO
 	public boolean saveProduct(ProductDTO productDTO) throws Exception;
 	public List<ProductSummaryDTO> getAll();
+	public List<ProductSummaryDTO> getByPrefix(String prefix);
 }

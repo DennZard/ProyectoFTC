@@ -15,4 +15,5 @@ public interface ProductController {
 	public ResponseEntity<Boolean> updateProduct(ProductDTO productDTO);
 	public ResponseEntity<Boolean> saveProduct(ProductDTO productDTO);
 	public ResponseEntity<List<ProductSummaryDTO>> getAll();
+	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(String prefix);
 }
