@@ -3,11 +3,14 @@ package com.ftc.demo.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.ftc.demo.DTOs.CompanyDTO;
 import com.ftc.demo.entities.Company;
 import com.ftc.demo.mapper.CompanyMapper;
 import com.ftc.demo.repositories.CompanyRepository;
 
+@Service
 public class CompanyServiceImpl implements CompanyService {
 	private final CompanyRepository companyRepository;
 	private final CompanyMapper companyMapper;

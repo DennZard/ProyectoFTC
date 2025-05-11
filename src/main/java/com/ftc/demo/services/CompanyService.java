@@ -3,8 +3,6 @@ package com.ftc.demo.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
-
 import com.ftc.demo.DTOs.CompanyDTO;
 
 public interface CompanyService {

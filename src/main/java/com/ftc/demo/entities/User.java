@@ -32,7 +32,7 @@ public class User {
 	private String password;
 	@NonNull
 	private String phone;
-	@NonNull
+//	@NonNull
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Roles> roles = new HashSet<>();
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ftc.demo.DTOs.ProductDTO;
+import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
 import com.ftc.demo.entities.Product;
 import com.ftc.demo.mapper.ProductDetailsMapper;
@@ -66,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean updateProduct(ProductDTO productoDTO) throws IllegalArgumentException {
-		if (productoDTO.id()== null)  throw new IllegalArgumentException("El id no existe"); 
+		if (productoDTO.id()== 0)  throw new IllegalArgumentException("El id no existe"); 
 		if (productRepository.existsById(productoDTO.id())) {
 			try {
 				productRepository.deleteById(productoDTO.id());
@@ -92,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean saveProduct(ProductDTO productDTO) throws Exception {
-		if (productDTO.id() == null) throw new IllegalArgumentException("No se proporciona id");
+		if (productDTO.id() == 0) throw new IllegalArgumentException("No se proporciona id");
 		//TODO poner la excepcion en concreto
 		if (productRepository.existsById(productDTO.id())) throw new Exception("El producto ya existe");
 		try {

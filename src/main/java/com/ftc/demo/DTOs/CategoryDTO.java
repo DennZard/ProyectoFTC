@@ -1,5 +1,5 @@
 package com.ftc.demo.DTOs;
 
-public record CategoryDTO() {
+public record CategoryDTO(String name) {
 
 }

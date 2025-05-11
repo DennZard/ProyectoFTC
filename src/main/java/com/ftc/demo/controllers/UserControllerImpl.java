@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +25,11 @@ public class UserControllerImpl implements UserController{
 
 	@Override
 	@PostMapping("register")
-	public ResponseEntity<UserLoginDTO> register(UserRegisterDTO customerDTO) {
+	public ResponseEntity<UserLoginDTO> register(@RequestBody UserRegisterDTO customerDTO) {
 		try {
 			Optional<UserLoginDTO> user = userService.register(customerDTO);
 			if (user.isPresent()) {
-				ResponseEntity.ok().body(user.get());
+				return ResponseEntity.ok().body(user.get());
 			}
 			return ResponseEntity.badRequest().eTag("Registro inválido").body(null);
 		} catch (Exception e) {

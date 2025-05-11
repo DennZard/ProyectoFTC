@@ -3,7 +3,6 @@ package com.ftc.demo.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.NativeQuery.ReturnableResultNode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.ProductDTO;
+import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
-import com.ftc.demo.entities.Product;
-import com.ftc.demo.services.ProductDetailsDTO;
 import com.ftc.demo.services.ProductService;
 
 @RestController
