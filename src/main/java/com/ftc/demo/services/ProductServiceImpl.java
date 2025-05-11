@@ -4,23 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.controllers.ProductSummaryDTO;
 import com.ftc.demo.entities.Product;
+import com.ftc.demo.mapper.ProductDetailsMapper;
 import com.ftc.demo.mapper.ProductMapper;
 import com.ftc.demo.mapper.ProductSummaryMapper;
 import com.ftc.demo.repositories.ProductRepository;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
 	private final ProductMapper productMapper;
 	private final ProductSummaryMapper productSummaryMapper;
+	private final ProductDetailsMapper productDetailsMapper;
 	
-	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper) {
+	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper) {
 		super();
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
 		this.productSummaryMapper = productSummaryMapper;
+		this.productDetailsMapper = productDetailsMapper;
+	}
+	
+	@Override
+	public Optional<ProductDetailsDTO> getDetails(long id) throws IllegalArgumentException {
+		if (id == 0) throw new IllegalArgumentException("El id no puede ser nulo");
+		Optional<Product> products = productRepository.findById(id);
+		if (products.isPresent()) {
+			return Optional.of(productDetailsMapper.mapToDto(products.get()));
+		}
+		return Optional.empty();
 	}
 	
 	@Override
@@ -108,6 +124,8 @@ public class ProductServiceImpl implements ProductService {
 					.toList();
 		}
 	}
+
+
 
 	
 }

@@ -3,10 +3,9 @@ package com.ftc.demo.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import com.ftc.demo.DTOs.ProductDTO;
-import com.ftc.demo.entities.Product;
+import com.ftc.demo.services.ProductDetailsDTO;
 
 public interface ProductController {
 	public ResponseEntity<List<ProductDTO>> getAllProducts();
@@ -16,4 +15,5 @@ public interface ProductController {
 	public ResponseEntity<Boolean> saveProduct(ProductDTO productDTO);
 	public ResponseEntity<List<ProductSummaryDTO>> getAll();
 	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(String prefix);
+	public ResponseEntity<ProductDetailsDTO> getDetails(long id);
 }

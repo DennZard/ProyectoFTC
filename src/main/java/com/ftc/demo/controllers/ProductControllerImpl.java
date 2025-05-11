@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.entities.Product;
+import com.ftc.demo.services.ProductDetailsDTO;
 import com.ftc.demo.services.ProductService;
 
 @RestController
@@ -27,6 +28,20 @@ public class ProductControllerImpl implements ProductController {
 	public ProductControllerImpl(ProductService productService) {
 		super();
 		this.productService = productService;
+	}
+	
+	@Override
+	public ResponseEntity<ProductDetailsDTO> getDetails(long id) {
+		try {
+			Optional<ProductDetailsDTO> details = productService.getDetails(id);
+			if (details.isPresent()) {
+				return ResponseEntity.ok().body(details.get());
+			}
+			return ResponseEntity.badRequest().eTag("No se encontro el produto").body(null);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
+		}
+		
 	}
 
 	@Override
@@ -106,6 +121,8 @@ public class ProductControllerImpl implements ProductController {
 		}
 		return ResponseEntity.badRequest().eTag("No se encontro el producto").body(null);
 	}
+
+	
 
 	
 
