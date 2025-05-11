@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.ftc.demo.DTOs.ProductDTO;
+import com.ftc.demo.DTOs.ProductSummaryDTO;
 import com.ftc.demo.services.ProductDetailsDTO;
 
 public interface ProductController {

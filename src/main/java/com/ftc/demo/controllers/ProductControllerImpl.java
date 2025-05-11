@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.ProductDTO;
+import com.ftc.demo.DTOs.ProductSummaryDTO;
 import com.ftc.demo.entities.Product;
 import com.ftc.demo.services.ProductDetailsDTO;
 import com.ftc.demo.services.ProductService;

@@ -2,7 +2,7 @@ package com.ftc.demo.mapper;
 
 import org.mapstruct.Mapper;
 
-import com.ftc.demo.controllers.ProductSummaryDTO;
+import com.ftc.demo.DTOs.ProductSummaryDTO;
 import com.ftc.demo.entities.Product;
 
 @Mapper(componentModel = "spring")

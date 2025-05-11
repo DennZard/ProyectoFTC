@@ -25,7 +25,7 @@ public class Company {
 	private String name;
 	@NonNull
 	@OneToOne
-	private Customer owner;
+	private User owner;
 	@NonNull
 	@OneToMany(mappedBy = "company")
 	private List<Product> products;

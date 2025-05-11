@@ -21,7 +21,7 @@ public class Delivery {
 	private long id;
 	@NonNull
 	@ManyToOne
-	private Customer customer;
+	private User customer;
 	@NonNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Status status;

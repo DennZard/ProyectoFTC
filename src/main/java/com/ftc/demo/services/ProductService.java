@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 import com.ftc.demo.DTOs.ProductDTO;
-import com.ftc.demo.controllers.ProductSummaryDTO;
+import com.ftc.demo.DTOs.ProductSummaryDTO;
 
 public interface ProductService {
 	public List<ProductSummaryDTO> getAll();
