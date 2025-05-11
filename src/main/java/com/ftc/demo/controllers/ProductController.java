@@ -17,4 +17,5 @@ public interface ProductController {
 	public ResponseEntity<List<ProductSummaryDTO>> getAll();
 	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(String prefix);
 	public ResponseEntity<ProductDetailsDTO> getDetails(long id);
+	public ResponseEntity<Boolean> buyProduct(float money, long id);
 }

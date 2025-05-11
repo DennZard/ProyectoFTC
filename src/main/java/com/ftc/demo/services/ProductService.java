@@ -2,7 +2,6 @@ package com.ftc.demo.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
@@ -16,6 +15,7 @@ public interface ProductService {
 	public boolean updateProduct(ProductDTO productoDTO);
 	public Optional<ProductDTO> deleteProduct(long id);
 	public Optional<ProductDTO> getProduct(long id);
-	//TODO
+	//TODO El manejo de excepciones
 	public boolean saveProduct(ProductDTO productDTO) throws Exception;
+	public boolean buyProduct(float money, long id);
 }

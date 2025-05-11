@@ -38,6 +38,8 @@ public class Product {
 	@NonNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Company company;
+	@NonNull
+	private int stock;
 	@OneToMany(mappedBy = "product")
 	private List<Delivery> deliveries = new ArrayList<>();
 }

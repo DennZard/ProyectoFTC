@@ -1,5 +1,6 @@
 package com.ftc.demo.controllers;
 
+import java.lang.System.Logger;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,17 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
+	public ResponseEntity<Boolean> buyProduct(float money, long id) {
+		try {
+			boolean buyProduct = productService.buyProduct(money, id);
+			return buyProduct(money, id);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
+		}
+		
+	}
+	
+	@Override
 	@GetMapping("details")
 	public ResponseEntity<ProductDetailsDTO> getDetails(@RequestParam long id) {
 		try {
@@ -41,7 +53,6 @@ public class ProductControllerImpl implements ProductController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
 		}
-		
 	}
 
 	@Override
@@ -90,7 +101,6 @@ public class ProductControllerImpl implements ProductController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(false);
 		}
-
 	}
 
 	@Override
@@ -123,6 +133,8 @@ public class ProductControllerImpl implements ProductController {
 		}
 		return ResponseEntity.badRequest().eTag("No se encontro el producto").body(null);
 	}
+
+	
 
 	
 

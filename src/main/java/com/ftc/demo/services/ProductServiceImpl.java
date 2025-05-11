@@ -126,6 +126,23 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+	@Override
+	public boolean buyProduct(float money, long id) throws IllegalArgumentException{
+		if (id == 0) throw new IllegalArgumentException("No se proporciona id");
+		if (money <= 0) throw new IllegalArgumentException("El dinero proporcionado no puede ser 0 o inferior");
+		Optional<Product> product = productRepository.findById(id);
+		if (product.isPresent()) {
+			Product product2 = product.get();
+			if (product2.getStock() <= 0) {
+				return false;
+			}
+			if (product2.getPrice() > money) {
+				return false;
+			} 
+		}
+		return true;
+	}
+
 
 
 	
