@@ -6,19 +6,42 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ftc.demo.DTOs.CompanyDTO;
+import com.ftc.demo.DTOs.CompanyProductDTO;
+import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.entities.Company;
+import com.ftc.demo.entities.Product;
 import com.ftc.demo.mapper.CompanyMapper;
+import com.ftc.demo.mapper.ProductDetailsMapper;
 import com.ftc.demo.repositories.CompanyRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.NonNull;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
 	private final CompanyRepository companyRepository;
 	private final CompanyMapper companyMapper;
+	private final ProductDetailsMapper productDetailsMapper;
 	
-	public CompanyServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper) {
+	public CompanyServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, ProductDetailsMapper productDetailsMapper) {
 		super();
 		this.companyRepository = companyRepository;
 		this.companyMapper = companyMapper;
+		this.productDetailsMapper = productDetailsMapper;
+	}
+	
+	@Override
+	public List<ProductDetailsDTO> getProducts(long id) throws IllegalArgumentException,EntityNotFoundException  {
+		if (id == 0) throw new IllegalArgumentException("Id no proporcionado");
+		Optional<Company> company = companyRepository.findById(id);
+		if (company.isPresent()) {
+			List<Product> products = company.get().getProducts();
+			if (!products.isEmpty()) {
+				return products.stream()
+					.map(productDetailsMapper::mapToDto)
+					.toList();
+			} else throw new EntityNotFoundException("No se encontro ningun producto");
+		} else throw new EntityNotFoundException("No se encontro la empresa");
 	}
 
 	@Override
@@ -88,5 +111,7 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		return false;
 	}
+
+
 
 }

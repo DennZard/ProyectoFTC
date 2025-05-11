@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.CompanyDTO;
+import com.ftc.demo.DTOs.ProductDetailsDTO;
+import com.ftc.demo.DTOs.UserLoginDTO;
 import com.ftc.demo.services.CompanyService;
 
 @RestController
@@ -38,6 +43,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@GetMapping("all")
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
 		List<CompanyDTO> allCompanies = companyService.getAllCompanies();
 		if (!allCompanies.isEmpty()) {
@@ -47,6 +53,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@PutMapping("update")
 	public ResponseEntity<Boolean> updateCompany(CompanyDTO companyDTO) {
 		try {
 			boolean update = companyService.updateCompany(companyDTO);
@@ -57,6 +64,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@DeleteMapping("delete")
 	public ResponseEntity<CompanyDTO> deleteCompany(CompanyDTO companyDTO) {
 		try {
 			Optional<CompanyDTO> deleteCompany = companyService.deleteCompany(companyDTO);
@@ -70,6 +78,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@PostMapping("save")
 	public ResponseEntity<Boolean> saveCompany(CompanyDTO companyDTO) {
 		try {
 			boolean saveCompany = companyService.saveCompany(companyDTO);
@@ -78,6 +87,20 @@ public class CompanyControllerImpl implements CompanyController {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
 		}
 
+	}
+
+	@Override
+	@GetMapping("products")
+	public ResponseEntity<List<ProductDetailsDTO>> getProducts(long companyId, UserLoginDTO user) {
+		try {
+			List<ProductDetailsDTO> products = companyService.getProducts(companyId);
+			if (!products.isEmpty()) {
+				return ResponseEntity.ok().body(products);
+			}
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
+		}
+		return ResponseEntity.badRequest().eTag("La solicitud no se pudo procesar").body(null);
 	}
 
 }

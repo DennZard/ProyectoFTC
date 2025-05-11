@@ -1,5 +1,7 @@
 package com.ftc.demo.entities;
 
+import java.sql.Date;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,8 @@ public class Delivery {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@NonNull
+	private Date added;
 	@NonNull
 	@ManyToOne
 	private User customer;

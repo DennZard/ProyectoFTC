@@ -30,7 +30,8 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
-	public ResponseEntity<ProductDetailsDTO> getDetails(long id) {
+	@GetMapping("details")
+	public ResponseEntity<ProductDetailsDTO> getDetails(@RequestParam long id) {
 		try {
 			Optional<ProductDetailsDTO> details = productService.getDetails(id);
 			if (details.isPresent()) {
@@ -44,6 +45,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
+	@GetMapping("search")
 	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(@RequestParam String prefix) {
 		try {
 			List<ProductSummaryDTO> products = productService.getByPrefix(prefix);
@@ -58,6 +60,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
+	@GetMapping("all")
 	public ResponseEntity<List<ProductSummaryDTO>> getAll() {
 		List<ProductSummaryDTO> products = productService.getAll();
 		if (!products.isEmpty()) {
