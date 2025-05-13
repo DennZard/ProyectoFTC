@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.ftc.demo.DTOs.CompanyDTO;
-import com.ftc.demo.DTOs.CompanyProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.UserLoginDTO;
 

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ftc.demo.DTOs.CompanyDTO;
-import com.ftc.demo.DTOs.CompanyProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Product;
@@ -15,7 +14,6 @@ import com.ftc.demo.mapper.ProductDetailsMapper;
 import com.ftc.demo.repositories.CompanyRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.NonNull;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
