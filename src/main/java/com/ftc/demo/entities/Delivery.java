@@ -27,14 +27,14 @@ public class Delivery {
 	@ManyToOne
 	private User customer;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Status status;
 	@NonNull
 	private String destination;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Employee employee;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Product product;
 }

@@ -26,6 +26,7 @@ public class CategoryPopulater {
 				new Category("Juegos"),
 				new Category("Cocina")
 		);
+//		return of;
 		return categoryRepository.saveAll(of);
 	}
 

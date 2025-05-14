@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.ftc.demo.entities.Category;
 import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Employee;
+import com.ftc.demo.entities.Product;
 import com.ftc.demo.entities.Roles;
 import com.ftc.demo.entities.Status;
 import com.ftc.demo.entities.User;
@@ -24,8 +25,10 @@ public class PopulaterController {
 	private final EmployeePopulater employeePopulater;
 	private final UserPopulater userPopulater;
 	private final CompanyPopulater companyPopulater;
+	private final ProductPopulater productPopulater;
+	private final DeliveryPopulater deliveryPopulater;
 	
-	public PopulaterController(StatusPopulater statusPopulater, CategoryPopulater categoryPopulater, RolesPopulater rolesPopulater, EmployeePopulater employeePopulater, UserPopulater userPopulater, CompanyPopulater companyPopulater) {
+	public PopulaterController(StatusPopulater statusPopulater, CategoryPopulater categoryPopulater, RolesPopulater rolesPopulater, EmployeePopulater employeePopulater, UserPopulater userPopulater, CompanyPopulater companyPopulater, ProductPopulater productPopulater, DeliveryPopulater deliveryPopulater) {
 		super();
 		this.statusPopulater = statusPopulater;
 		this.categoryPopulater = categoryPopulater;
@@ -33,6 +36,8 @@ public class PopulaterController {
 		this.employeePopulater = employeePopulater;
 		this.userPopulater = userPopulater;
 		this.companyPopulater = companyPopulater;
+		this.productPopulater = productPopulater;
+		this.deliveryPopulater = deliveryPopulater;
 	}
 
 
@@ -45,8 +50,9 @@ public class PopulaterController {
 		List<Employee> employees = employeePopulater.populate();
 		List<User> sellers = userPopulater.populate(roles);
 		List<Company> companies = companyPopulater.populate(sellers);
-		
-		
+		List<Product> products = productPopulater.populate(companies, categories);
+		List<Company> repopulate = companyPopulater.repopulate(products);
+		deliveryPopulater.populate(employees, statuses, products);
 	}
 
 }
