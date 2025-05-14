@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.CompanyDTO;
@@ -28,7 +30,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	@Override
 	@GetMapping("byId")
-	public ResponseEntity<CompanyDTO> getCompany(long id) {
+	public ResponseEntity<CompanyDTO> getCompany(@RequestParam long id) {
 		try {
 			Optional<CompanyDTO> company = companyService.getCompany(id);
 			if (company.isPresent()) {
@@ -54,9 +56,10 @@ public class CompanyControllerImpl implements CompanyController {
 
 	@Override
 	@PutMapping("update")
-	public ResponseEntity<Boolean> updateCompany(CompanyDTO companyDTO) {
+	//TODO
+	public ResponseEntity<Boolean> updateCompany(@RequestParam long id, @RequestBody CompanyDTO companyDTO) {
 		try {
-			boolean update = companyService.updateCompany(companyDTO);
+			boolean update = companyService.updateCompany(id, companyDTO);
 			return ResponseEntity.ok().body(update);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
@@ -64,8 +67,8 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
-	@DeleteMapping("delete")
-	public ResponseEntity<CompanyDTO> deleteCompany(long id) {
+	@DeleteMapping("byId")
+	public ResponseEntity<CompanyDTO> deleteCompany(@RequestParam long id) {
 		try {
 			Optional<CompanyDTO> deleteCompany = companyService.deleteCompany(id);
 			if (deleteCompany.isPresent()) {
@@ -79,7 +82,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	@Override
 	@PostMapping("save")
-	public ResponseEntity<Boolean> saveCompany(CompanyDTO companyDTO) {
+	public ResponseEntity<Boolean> saveCompany(@RequestBody CompanyDTO companyDTO) {
 		try {
 			boolean saveCompany = companyService.saveCompany(companyDTO);
 			return ResponseEntity.ok().body(saveCompany);
@@ -91,7 +94,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	@Override
 	@GetMapping("products")
-	public ResponseEntity<List<ProductDetailsDTO>> getProducts(long companyId, UserLoginDTO user) {
+	public ResponseEntity<List<ProductDetailsDTO>> getProducts(@RequestParam long companyId, @RequestBody UserLoginDTO user) {
 		try {
 			List<ProductDetailsDTO> products = companyService.getProducts(companyId);
 			if (!products.isEmpty()) {

@@ -37,4 +37,10 @@ public class UserControllerImpl implements UserController{
 		}
 	}
 
+	@Override
+	public ResponseEntity<Boolean> login(UserLoginDTO userLoginDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -7,5 +7,6 @@ import com.ftc.demo.DTOs.UserRegisterDTO;
 
 public interface UserController {
 	public ResponseEntity<UserLoginDTO> register(UserRegisterDTO customerDTO);
+	public ResponseEntity<Boolean> login(UserLoginDTO userLoginDTO);
 	
 }

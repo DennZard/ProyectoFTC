@@ -9,8 +9,8 @@ import com.ftc.demo.DTOs.ProductDetailsDTO;
 public interface CompanyService {
 	public Optional<CompanyDTO> getCompany(long id) throws IllegalArgumentException;
 	public List<CompanyDTO> getAllCompanies();
-	public boolean updateCompany(CompanyDTO companyDTO) throws IllegalArgumentException;
 	public boolean saveCompany(CompanyDTO companyDTO) throws IllegalArgumentException;
 	public List<ProductDetailsDTO> getProducts(long id);
-	Optional<CompanyDTO> deleteCompany(long id) throws IllegalArgumentException;
+	public Optional<CompanyDTO> deleteCompany(long id) throws IllegalArgumentException;
+	public boolean updateCompany(long id, CompanyDTO companyDTO) throws IllegalArgumentException;
 }

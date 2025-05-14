@@ -50,14 +50,14 @@ public class ProductControllerImpl implements ProductController {
 			if (details.isPresent()) {
 				return ResponseEntity.ok().body(details.get());
 			}
-			return ResponseEntity.badRequest().eTag("No se encontro el produto").body(null);
+			return ResponseEntity.badRequest().eTag("No se encontro el producto").body(null);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
 		}
 	}
 
 	@Override
-	@GetMapping("search")
+	@GetMapping("prefix")
 	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(@RequestParam String prefix) {
 		try {
 			List<ProductSummaryDTO> products = productService.getByPrefix(prefix);
@@ -106,7 +106,7 @@ public class ProductControllerImpl implements ProductController {
 
 	@Override
 	@DeleteMapping("byId")
-	public ResponseEntity<ProductDTO> deleteProduct(@RequestBody long id) {
+	public ResponseEntity<ProductDTO> deleteProduct(@RequestParam long id) {
 		Optional<ProductDTO> product = productService.deleteProduct(id);
 		if (product.isPresent()) {
 			return ResponseEntity.ok().body(product.get());
@@ -127,7 +127,7 @@ public class ProductControllerImpl implements ProductController {
 
 	@Override
 	@GetMapping("byId")
-	public ResponseEntity<ProductDTO> getProduct(@RequestBody long id) {
+	public ResponseEntity<ProductDTO> getProduct(@RequestParam long id) {
 		Optional<ProductDTO> product = productService.getProduct(id);
 		if (product.isPresent()) {
 			return ResponseEntity.ok().body(product.get());

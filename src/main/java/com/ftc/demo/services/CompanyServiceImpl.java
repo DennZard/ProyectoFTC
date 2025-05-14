@@ -65,18 +65,20 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public boolean updateCompany(CompanyDTO companyDTO) throws IllegalArgumentException {
-//		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
+	public boolean updateCompany(long id, CompanyDTO companyDTO) throws IllegalArgumentException {
+		if(id == 0) throw new IllegalArgumentException("Id no proporcionado");
 		try {
-//			long id = companyDTO.id();
-//			if (companyRepository.existsById(id)) {
-//				companyRepository.deleteById(id);
-				companyRepository.save(companyMapper.mapToEntity(companyDTO));
+			Optional<Company> company = companyRepository.findById(id);
+			if (company.isPresent()) {
+				company.get().setId(id);
+				company.get().setName(companyDTO.name());
+				companyRepository.save(company.get());
 				return true;
-//			}
+			}
 		} catch (Exception e) {
 			return false;
 		}
+		return false;
 	}
 
 	@Override
