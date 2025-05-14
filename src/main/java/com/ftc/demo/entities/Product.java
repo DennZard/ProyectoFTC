@@ -28,7 +28,7 @@ public class Product {
 	@NonNull
 	private String name;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Category category;
 	@NonNull
 	private float price;
@@ -37,7 +37,7 @@ public class Product {
 	@NonNull
 	private Date added;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Company company;
 	@NonNull
 	private int stock;

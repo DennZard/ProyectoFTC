@@ -1,6 +1,5 @@
 package com.ftc.demo.controllers;
 
-import java.lang.System.Logger;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftc.demo.DTOs.ProductBuyDTO;
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
@@ -31,10 +31,11 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
-	public ResponseEntity<Boolean> buyProduct(float money, long id) {
+	@PutMapping("buy")
+	public ResponseEntity<Boolean> buyProduct(@RequestBody ProductBuyDTO productBuyDTO) {
 		try {
-			boolean buyProduct = productService.buyProduct(money, id);
-			return buyProduct(money, id);
+			boolean buyProduct = productService.buyProduct(productBuyDTO);
+			return ResponseEntity.ok().body(buyProduct);
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
 		}
@@ -95,7 +96,7 @@ public class ProductControllerImpl implements ProductController {
 
 	@Override
 	@PutMapping("update")
-	public ResponseEntity<Boolean> updateProduct(ProductDTO productDTO) {
+	public ResponseEntity<Boolean> updateProduct(@RequestBody ProductDTO productDTO) {
 		try {
 			return ResponseEntity.ok().body(productService.updateProduct(productDTO));
 		} catch (IllegalArgumentException e) {
@@ -116,11 +117,11 @@ public class ProductControllerImpl implements ProductController {
 
 	@Override
 	@PostMapping("save")
-	public ResponseEntity<Boolean> saveProduct(ProductDTO productDTO) {
+	public ResponseEntity<Boolean> saveProduct(@RequestBody ProductDTO productDTO) {
 		try {
 			return ResponseEntity.ok().body(productService.saveProduct(productDTO));
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().eTag("No se pudo eliminar el producto").body(null);
+			return ResponseEntity.badRequest().eTag("No se pudo guardar el producto").body(null);
 		}
 	};
 

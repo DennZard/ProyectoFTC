@@ -65,9 +65,9 @@ public class CompanyControllerImpl implements CompanyController {
 
 	@Override
 	@DeleteMapping("delete")
-	public ResponseEntity<CompanyDTO> deleteCompany(CompanyDTO companyDTO) {
+	public ResponseEntity<CompanyDTO> deleteCompany(long id) {
 		try {
-			Optional<CompanyDTO> deleteCompany = companyService.deleteCompany(companyDTO);
+			Optional<CompanyDTO> deleteCompany = companyService.deleteCompany(id);
 			if (deleteCompany.isPresent()) {
 				return ResponseEntity.ok().body(deleteCompany.get());
 			}

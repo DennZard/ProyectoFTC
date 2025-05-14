@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ftc.demo.DTOs.ProductBuyDTO;
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
@@ -67,17 +68,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean updateProduct(ProductDTO productoDTO) throws IllegalArgumentException {
-		if (productoDTO.id()== 0)  throw new IllegalArgumentException("El id no existe"); 
-		if (productRepository.existsById(productoDTO.id())) {
+//		if (productoDTO.id()== 0)  throw new IllegalArgumentException("El id no existe"); 
+//		if (productRepository.existsById(productoDTO.id())) {
 			try {
-				productRepository.deleteById(productoDTO.id());
+//				productRepository.deleteById(productoDTO.id());
 				productRepository.save(productMapper.mapToEntity(productoDTO));
 				return true;
 			} catch (Exception e) {
 				return false;
 			}
-		}
-		return false;
+//		}
 	}
 
 	@Override
@@ -93,9 +93,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean saveProduct(ProductDTO productDTO) throws Exception {
-		if (productDTO.id() == 0) throw new IllegalArgumentException("No se proporciona id");
 		//TODO poner la excepcion en concreto
-		if (productRepository.existsById(productDTO.id())) throw new Exception("El producto ya existe");
+//		if (productRepository.existsById(productDTO.id())) throw new Exception("El producto ya existe");
 		try {
 			productRepository.save(productMapper.mapToEntity(productDTO));
 			return true;
@@ -127,19 +126,21 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean buyProduct(float money, long id) throws IllegalArgumentException{
-		if (id == 0) throw new IllegalArgumentException("No se proporciona id");
-		if (money <= 0) throw new IllegalArgumentException("El dinero proporcionado no puede ser 0 o inferior");
-		Optional<Product> product = productRepository.findById(id);
+	public boolean buyProduct(ProductBuyDTO productDTO) throws IllegalArgumentException{
+		if (productDTO.id() == 0) throw new IllegalArgumentException("No se proporciona id");
+		if (productDTO.money() <= 0) throw new IllegalArgumentException("El dinero proporcionado no puede ser 0 o inferior");
+		Optional<Product> product = productRepository.findById(productDTO.id());
 		if (product.isPresent()) {
 			Product product2 = product.get();
 			if (product2.getStock() <= 0) {
 				return false;
 			}
-			if (product2.getPrice() > money) {
+			if (product2.getPrice() > productDTO.money()) {
 				return false;
 			} 
 		}
+		product.get().setStock(product.get().getStock()-1);;
+		productRepository.save(product.get());
 		return true;
 	}
 

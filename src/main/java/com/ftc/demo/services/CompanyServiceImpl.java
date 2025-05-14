@@ -66,25 +66,24 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public boolean updateCompany(CompanyDTO companyDTO) throws IllegalArgumentException {
-		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
+//		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
 		try {
-			long id = companyDTO.id();
-			if (companyRepository.existsById(id)) {
-				companyRepository.deleteById(id);
+//			long id = companyDTO.id();
+//			if (companyRepository.existsById(id)) {
+//				companyRepository.deleteById(id);
 				companyRepository.save(companyMapper.mapToEntity(companyDTO));
 				return true;
-			}
+//			}
 		} catch (Exception e) {
 			return false;
 		}
-		return false;
 	}
 
 	@Override
-	public Optional<CompanyDTO> deleteCompany(CompanyDTO companyDTO) throws IllegalArgumentException {
-		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
+	public Optional<CompanyDTO> deleteCompany(long id) throws IllegalArgumentException {
+//		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
 		try {
-			long id = companyDTO.id();
+//			long id = companyDTO.id();
 			Optional<Company> company = companyRepository.findById(id);
 			if (company.isPresent()) {
 				companyRepository.deleteById(id);
@@ -98,16 +97,15 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public boolean saveCompany(CompanyDTO companyDTO) throws IllegalArgumentException {
-		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
+//		if(companyDTO.id() == 0) throw new IllegalArgumentException("Id no proporcionado");
 		try {
-			if (companyRepository.findById(companyDTO.id()).isEmpty()) {
+//			if (companyRepository.findById(companyDTO.id()).isEmpty()) {
 				companyRepository.save(companyMapper.mapToEntity(companyDTO));
 				return true;
-			}
+//			}
 		} catch (Exception e) {
 			return false;
 		}
-		return false;
 	}
 
 

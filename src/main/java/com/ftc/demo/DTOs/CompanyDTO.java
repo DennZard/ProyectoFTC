@@ -1,5 +1,5 @@
 package com.ftc.demo.DTOs;
 
-public record CompanyDTO(long id, String name, UserLoginDTO user) {
+public record CompanyDTO(String name) {
 
 }

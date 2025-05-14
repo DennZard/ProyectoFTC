@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.ftc.demo.DTOs.ProductBuyDTO;
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
@@ -17,5 +18,5 @@ public interface ProductController {
 	public ResponseEntity<List<ProductSummaryDTO>> getAll();
 	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(String prefix);
 	public ResponseEntity<ProductDetailsDTO> getDetails(long id);
-	public ResponseEntity<Boolean> buyProduct(float money, long id);
+	public ResponseEntity<Boolean> buyProduct(ProductBuyDTO productBuyDTO);
 }
