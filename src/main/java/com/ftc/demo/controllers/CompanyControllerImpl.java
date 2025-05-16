@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftc.demo.DTOs.CompanyCreateDTO;
 import com.ftc.demo.DTOs.CompanyDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.UserLoginDTO;
@@ -57,7 +58,7 @@ public class CompanyControllerImpl implements CompanyController {
 	@Override
 	@PutMapping("update")
 	//TODO
-	public ResponseEntity<Boolean> updateCompany(@RequestParam long id, @RequestBody CompanyDTO companyDTO) {
+	public ResponseEntity<Boolean> updateCompany(@RequestParam long id, @RequestBody CompanyCreateDTO companyDTO) {
 		try {
 			boolean update = companyService.updateCompany(id, companyDTO);
 			return ResponseEntity.ok().body(update);
@@ -82,7 +83,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	@Override
 	@PostMapping("save")
-	public ResponseEntity<Boolean> saveCompany(@RequestBody CompanyDTO companyDTO) {
+	public ResponseEntity<Boolean> saveCompany(@RequestBody CompanyCreateDTO companyDTO) {
 		try {
 			boolean saveCompany = companyService.saveCompany(companyDTO);
 			return ResponseEntity.ok().body(saveCompany);

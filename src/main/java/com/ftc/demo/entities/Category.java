@@ -2,6 +2,7 @@ package com.ftc.demo.entities;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NonNull
+	@Column(unique = true)
 	private String name;
 	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
 	private List<Product> products;

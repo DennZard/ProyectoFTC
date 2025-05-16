@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,8 +28,10 @@ public class User {
 	private long id;
 	@Email
 	@NonNull
+	@Column(unique = true)
 	private String email;
 	@NonNull
+	@Column(unique = true)
 	private String username;
 	@NonNull
 	private String password;
