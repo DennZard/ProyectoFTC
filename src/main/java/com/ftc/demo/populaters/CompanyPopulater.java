@@ -9,16 +9,19 @@ import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Product;
 import com.ftc.demo.entities.User;
 import com.ftc.demo.repositories.CompanyRepository;
+import com.ftc.demo.repositories.UserRepository;
 
 @Component
 public class CompanyPopulater {
 	
 	private final CompanyRepository companyRepository;
+	private final UserRepository userRepository;
 	private List<Company> of;
 	
-	public CompanyPopulater(CompanyRepository companyRepository) {
+	public CompanyPopulater(CompanyRepository companyRepository, UserRepository userRepository) {
 		super();
 		this.companyRepository = companyRepository;
+		this.userRepository = userRepository;
 	}
 
 

@@ -1,5 +1,6 @@
 package com.ftc.demo.DTOs;
 
-public record RolesDTO() {
+
+public record RolesDTO(long id, String name) {
 
 }

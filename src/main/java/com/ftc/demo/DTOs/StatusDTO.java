@@ -1,5 +1,5 @@
 package com.ftc.demo.DTOs;
 
-public record StatusDTO() {
+public record StatusDTO(long id, String name) {
 
 }

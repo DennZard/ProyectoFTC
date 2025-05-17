@@ -1,5 +1,5 @@
 package com.ftc.demo.DTOs;
 
-public record EmployeeDTO() {
+public record EmployeeDTO(String name, String lastName, String email) {
 
 }

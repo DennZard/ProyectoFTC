@@ -19,9 +19,8 @@ import com.ftc.demo.mapper.UserLoginMapper;
 import com.ftc.demo.repositories.CompanyRepository;
 import com.ftc.demo.repositories.UserRepository;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.NonNull;
+import jakarta.transaction.Transactional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -80,6 +79,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
+	@Transactional
 	public boolean updateCompany(long id, CompanyCreateDTO companyDTO) throws IllegalArgumentException {
 		if (id == 0)
 			throw new IllegalArgumentException("Id no proporcionado");
@@ -90,8 +90,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 				Optional<User> byUsername = userRepository.findByUsername(companyDTO.owner().username());
 				if (byUsername.isPresent()) {
-					company.setOwner(byUsername.get());
-
+					User owner = byUsername.get();
+//					User user = new User(owner.getId(), owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone(), owner.getRoles());
+//					User user = new User(owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone());
+					company.setOwner(owner);
 					Optional<Boolean> map = companyOptional.map((comp) -> {
 						companyRepository.delete(comp);
 						companyRepository.save(company);

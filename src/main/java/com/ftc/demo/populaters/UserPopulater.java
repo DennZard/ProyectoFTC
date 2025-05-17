@@ -10,8 +10,6 @@ import com.ftc.demo.entities.User;
 import com.ftc.demo.repositories.RolesRepository;
 import com.ftc.demo.repositories.UserRepository;
 
-import jakarta.persistence.EntityManager;
-
 @Component
 public class UserPopulater {
 
@@ -45,7 +43,7 @@ public class UserPopulater {
 		for (User user : sellers) {
 			user.setRoles(rolesSet);
 		}
-		userRepository.saveAll(sellers);
+		List<User> saveAll = userRepository.saveAll(sellers);
 		
 		
 		rolesSet.add(roles.get(0));
@@ -59,7 +57,7 @@ public class UserPopulater {
 			.toList();
 		userRepository.saveAll(admins);
 		
-		return sellers;
+		return saveAll;
 		
 	}
 
