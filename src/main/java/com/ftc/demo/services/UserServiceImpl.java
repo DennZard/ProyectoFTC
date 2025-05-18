@@ -54,8 +54,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> login() {
-		// TODO Auto-generated method stub
+	public Optional<User> login(UserLoginDTO userLoginDTO) {
+		if (userLoginDTO.email() == null || userLoginDTO.password() == null 
+				|| userLoginDTO.username()  == null ) throw new IllegalArgumentException("Debes proporcionar todos los valores"); 
+		try {
+			Optional<User> byUsername = userRepository.findByUsername(userLoginDTO.username());
+			if (byUsername.isPresent()) {
+				User user = byUsername.get();
+				if (user.getEmail().equals(userLoginDTO.email()) && user.getPassword().equals(userLoginDTO.password())) {
+					return Optional.of(user);
+				}
+			}
+		} catch (Exception e) {
+			return Optional.empty();
+		}
 		return Optional.empty();
 	}
 

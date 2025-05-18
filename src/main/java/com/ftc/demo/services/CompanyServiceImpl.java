@@ -94,6 +94,7 @@ public class CompanyServiceImpl implements CompanyService {
 //					User user = new User(owner.getId(), owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone(), owner.getRoles());
 //					User user = new User(owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone());
 					company.setOwner(owner);
+//					company.setId(0);
 					Optional<Boolean> map = companyOptional.map((comp) -> {
 						companyRepository.delete(comp);
 						companyRepository.save(company);
@@ -107,7 +108,6 @@ public class CompanyServiceImpl implements CompanyService {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println(e.getCause());
-			return false;
 		}
 		return false;
 	}

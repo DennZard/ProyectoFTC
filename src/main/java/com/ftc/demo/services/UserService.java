@@ -9,5 +9,5 @@ import com.ftc.demo.entities.User;
 public interface UserService {
 	public Optional<UserLoginDTO> register(UserRegisterDTO userRegisterDTO);
 	//TODO
-	public Optional<User> login();
+	public Optional<User> login(UserLoginDTO userLoginDTO);
 }

@@ -29,7 +29,7 @@ public class Company {
 	private String name;
 	@NonNull
 	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "owner_id")
 	private User owner;
 	@OneToMany(mappedBy = "company")
 	private List<Product> products;
