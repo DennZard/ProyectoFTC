@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class DeliveryControllerImpl implements DeliveryController{
 
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("all")
 	public ResponseEntity<List<DeliveryDTO>> getDeliveries() {
 		try {
@@ -46,6 +48,7 @@ public class DeliveryControllerImpl implements DeliveryController{
 
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("byId")
 	public ResponseEntity<DeliveryDTO> getDelivery(@RequestParam long id) {
 		try {
@@ -60,6 +63,7 @@ public class DeliveryControllerImpl implements DeliveryController{
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PostMapping("create")
 	public ResponseEntity<DeliveryCreateDTO> createDelivery(@RequestBody DeliveryCreateDTO deliveryDTO) {
 		// TODO Auto-generated method stub
@@ -67,6 +71,7 @@ public class DeliveryControllerImpl implements DeliveryController{
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PutMapping("update")
 	public ResponseEntity<Boolean> changeStatus(@RequestBody DeliveryChangeStatusDTO deliveryDTO) {
 		// TODO Auto-generated method stub
@@ -74,6 +79,7 @@ public class DeliveryControllerImpl implements DeliveryController{
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@DeleteMapping("byId")
 	public ResponseEntity<Boolean> deleteDelivery(@RequestParam long id) {
 		try {

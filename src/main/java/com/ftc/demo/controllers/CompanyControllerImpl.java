@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("byId")
 	public ResponseEntity<CompanyDTO> getCompany(@RequestParam long id) {
 		try {
@@ -46,6 +48,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("all")
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
 		List<CompanyDTO> allCompanies = companyService.getAllCompanies();
@@ -56,6 +59,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PutMapping("update")
 	//TODO
 	public ResponseEntity<Boolean> updateCompany(@RequestParam long id, @RequestBody CompanyCreateDTO companyDTO) {
@@ -68,6 +72,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@DeleteMapping("byId")
 	public ResponseEntity<CompanyDTO> deleteCompany(@RequestParam long id) {
 		try {
@@ -82,6 +87,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PostMapping("save")
 	public ResponseEntity<Boolean> saveCompany(@RequestBody CompanyCreateDTO companyDTO) {
 		try {
@@ -94,6 +100,7 @@ public class CompanyControllerImpl implements CompanyController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("products")
 	public ResponseEntity<List<ProductDetailsDTO>> getProducts(@RequestParam long companyId, @RequestBody UserLoginDTO user) {
 		try {

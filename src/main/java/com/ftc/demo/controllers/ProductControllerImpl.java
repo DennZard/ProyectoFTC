@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PutMapping("buy")
 	public ResponseEntity<Boolean> buyProduct(@RequestBody ProductBuyDTO productBuyDTO) {
 		try {
@@ -43,6 +45,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("details")
 	public ResponseEntity<ProductDetailsDTO> getDetails(@RequestParam long id) {
 		try {
@@ -57,6 +60,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("prefix")
 	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(@RequestParam String prefix) {
 		try {
@@ -72,6 +76,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 	
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("all")
 	public ResponseEntity<List<ProductSummaryDTO>> getAll() {
 		List<ProductSummaryDTO> products = productService.getAll();
@@ -82,8 +87,9 @@ public class ProductControllerImpl implements ProductController {
 		}
 	}
 
-	// Para admin
+	// Para admin/Sellers
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("full")
 	public ResponseEntity<List<ProductDTO>> getAllProducts() {
 		List<ProductDTO> products = productService.getAllProducts();
@@ -95,6 +101,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PutMapping("update")
 	public ResponseEntity<Boolean> updateProduct(@RequestBody ProductDTO productDTO) {
 		try {
@@ -105,6 +112,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@DeleteMapping("byId")
 	public ResponseEntity<ProductDTO> deleteProduct(@RequestParam long id) {
 		Optional<ProductDTO> product = productService.deleteProduct(id);
@@ -116,6 +124,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@PostMapping("save")
 	public ResponseEntity<Boolean> saveProduct(@RequestBody ProductDTO productDTO) {
 		try {
@@ -126,6 +135,7 @@ public class ProductControllerImpl implements ProductController {
 	};
 
 	@Override
+	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("byId")
 	public ResponseEntity<ProductDTO> getProduct(@RequestParam long id) {
 		Optional<ProductDTO> product = productService.getProduct(id);
