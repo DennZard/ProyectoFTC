@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> login(UserLoginDTO userLoginDTO) {
-		if (userLoginDTO.email() == null || userLoginDTO.password() == null 
-				|| userLoginDTO.username()  == null ) throw new IllegalArgumentException("Debes proporcionar todos los valores"); 
+		if (userLoginDTO.email() == null || userLoginDTO.password() == null ) 
+			throw new IllegalArgumentException("Debes proporcionar todos los valores"); 
 		try {
-			Optional<User> byUsername = userRepository.findByUsername(userLoginDTO.username());
+			Optional<User> byUsername = userRepository.findByEmail(userLoginDTO.email());
 			if (byUsername.isPresent()) {
 				User user = byUsername.get();
 				if (user.getEmail().equals(userLoginDTO.email()) && user.getPassword().equals(userLoginDTO.password())) {

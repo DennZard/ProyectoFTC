@@ -10,5 +10,6 @@ import com.ftc.demo.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	public Optional<User> findByUsername(String username);
+	public Optional<User> findByEmail(String email);
 
 }

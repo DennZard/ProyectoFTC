@@ -88,7 +88,7 @@ public class CompanyServiceImpl implements CompanyService {
 			if (companyOptional.isPresent()) {
 				Company company = companyCreateMapper.mapToEntity(companyDTO);
 
-				Optional<User> byUsername = userRepository.findByUsername(companyDTO.owner().username());
+				Optional<User> byUsername = userRepository.findByEmail(companyDTO.owner().email());
 				if (byUsername.isPresent()) {
 					User owner = byUsername.get();
 //					User user = new User(owner.getId(), owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone(), owner.getRoles());
@@ -142,7 +142,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public boolean saveCompany(CompanyCreateDTO companyDTO) throws IllegalArgumentException {
 		try {
-			Optional<User> byUsername = userRepository.findByUsername(companyDTO.owner().username());
+			Optional<User> byUsername = userRepository.findByEmail(companyDTO.owner().email());
 			if (byUsername.isPresent()) {
 				Company company = companyCreateMapper.mapToEntity(companyDTO);
 				company.setOwner(byUsername.get());
