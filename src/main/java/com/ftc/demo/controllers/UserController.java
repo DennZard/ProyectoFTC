@@ -4,9 +4,10 @@ import org.springframework.http.ResponseEntity;
 
 import com.ftc.demo.DTOs.UserLoginDTO;
 import com.ftc.demo.DTOs.UserRegisterDTO;
+import com.ftc.demo.entities.Response;
 
 public interface UserController {
-	public ResponseEntity<UserLoginDTO> register(UserRegisterDTO customerDTO);
-	public ResponseEntity<Boolean> login(UserLoginDTO userLoginDTO);
+	public ResponseEntity<Response> register(UserRegisterDTO customerDTO);
+	public ResponseEntity<Response> login(UserLoginDTO userLoginDTO);
 	
 }
