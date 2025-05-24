@@ -2,6 +2,7 @@ package com.ftc.demo.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,6 +26,6 @@ public class Category {
 	@NonNull
 	@Column(unique = true)
 	private String name;
-	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "category")
 	private List<Product> products;
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.ProductBuyDTO;
+import com.ftc.demo.DTOs.ProductCreateDTO;
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
@@ -126,7 +127,7 @@ public class ProductControllerImpl implements ProductController {
 	@Override
 	@CrossOrigin("http://localhost:4200/")
 	@PostMapping("save")
-	public ResponseEntity<Boolean> saveProduct(@RequestBody ProductDTO productDTO) {
+	public ResponseEntity<Boolean> saveProduct(@RequestBody ProductCreateDTO productDTO) {
 		try {
 			return ResponseEntity.ok().body(productService.saveProduct(productDTO));
 		} catch (Exception e) {

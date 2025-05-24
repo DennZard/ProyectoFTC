@@ -1,5 +1,7 @@
 package com.ftc.demo.services;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +9,17 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ftc.demo.DTOs.ProductBuyDTO;
+import com.ftc.demo.DTOs.ProductCreateDTO;
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
 import com.ftc.demo.entities.Product;
+import com.ftc.demo.mapper.ProductCreateMapper;
 import com.ftc.demo.mapper.ProductDetailsMapper;
 import com.ftc.demo.mapper.ProductMapper;
 import com.ftc.demo.mapper.ProductSummaryMapper;
+import com.ftc.demo.repositories.CategoryRepository;
+import com.ftc.demo.repositories.CompanyRepository;
 import com.ftc.demo.repositories.ProductRepository;
 
 @Service
@@ -22,13 +28,19 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductMapper productMapper;
 	private final ProductSummaryMapper productSummaryMapper;
 	private final ProductDetailsMapper productDetailsMapper;
+	private final ProductCreateMapper productCreateMapper;
+	private final CategoryRepository categoryRepository;
+	private final CompanyRepository companyRepository;
 	
-	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper) {
+	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper, ProductCreateMapper productCreateMapper, CompanyRepository companyRepository, CategoryRepository categoryRepository) {
 		super();
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
 		this.productSummaryMapper = productSummaryMapper;
 		this.productDetailsMapper = productDetailsMapper;
+		this.productCreateMapper = productCreateMapper;
+		this.categoryRepository = categoryRepository;
+		this.companyRepository = companyRepository;
 	}
 	
 	@Override
@@ -68,16 +80,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean updateProduct(ProductDTO productoDTO) throws IllegalArgumentException {
-//		if (productoDTO.id()== 0)  throw new IllegalArgumentException("El id no existe"); 
-//		if (productRepository.existsById(productoDTO.id())) {
+		if (productoDTO.id()== 0)  throw new IllegalArgumentException("El id no existe"); 
+		if (productRepository.existsById(productoDTO.id())) {
 			try {
-//				productRepository.deleteById(productoDTO.id());
 				productRepository.save(productMapper.mapToEntity(productoDTO));
 				return true;
 			} catch (Exception e) {
 				return false;
 			}
-//		}
+		}
+		return false;
 	}
 
 	@Override
@@ -92,13 +104,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean saveProduct(ProductDTO productDTO) throws Exception {
-		//TODO poner la excepcion en concreto
-//		if (productRepository.existsById(productDTO.id())) throw new Exception("El producto ya existe");
+	public boolean saveProduct(ProductCreateDTO productDTO) throws Exception {
+		if (productDTO.categoryId() == 0) throw new IllegalArgumentException("No se proporciona id para la categoria");
+		if (productDTO.companyId() == 0) throw new IllegalArgumentException("No se proporciona id para la compañia");
 		try {
-			productRepository.save(productMapper.mapToEntity(productDTO));
+			Product product = productCreateMapper.mapToEntity(productDTO);
+			product.setCategory(categoryRepository.findById(productDTO.categoryId()).get() );
+			product.setCompany(companyRepository.findById(productDTO.companyId()).get());
+			product.setAdded(Date.valueOf(LocalDate.now()));
+			productRepository.save(product);
 			return true;
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -130,8 +147,9 @@ public class ProductServiceImpl implements ProductService {
 		if (productDTO.id() == 0) throw new IllegalArgumentException("No se proporciona id");
 		if (productDTO.money() <= 0) throw new IllegalArgumentException("El dinero proporcionado no puede ser 0 o inferior");
 		Optional<Product> product = productRepository.findById(productDTO.id());
+		Product prod = product.get();
 		if (product.isPresent()) {
-			Product product2 = product.get();
+			Product product2 = prod;
 			if (product2.getStock() <= 0) {
 				return false;
 			}
@@ -139,8 +157,9 @@ public class ProductServiceImpl implements ProductService {
 				return false;
 			} 
 		}
-		product.get().setStock(product.get().getStock()-1);;
-		productRepository.save(product.get());
+		prod.setStock(prod.getStock()-1);
+		prod.setSells(prod.getSells()+1);
+		productRepository.save(prod);
 		return true;
 	}
 

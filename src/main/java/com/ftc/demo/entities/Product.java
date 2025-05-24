@@ -27,7 +27,7 @@ public class Product {
 	@NonNull
 	private String name;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Category category;
 	@NonNull
 	private float price;
@@ -36,11 +36,11 @@ public class Product {
 	@NonNull
 	private Date added;
 	@NonNull
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Company company;
 	@NonNull
 	private int stock;
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Delivery> deliveries = new ArrayList<>();
 	private String image;
 }
