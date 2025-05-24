@@ -1,10 +1,12 @@
 package com.ftc.demo.populaters;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Roles;
 import com.ftc.demo.entities.User;
 import com.ftc.demo.repositories.RolesRepository;
@@ -15,6 +17,7 @@ public class UserPopulater {
 
 	private final UserRepository userRepository;
 	private final RolesRepository rolesRepository;
+	private List<User> sellers = new ArrayList<>();
 
 	public UserPopulater(UserRepository userRepository, RolesRepository rolesRepository) {
 		super();
@@ -43,6 +46,7 @@ public class UserPopulater {
 		for (User user : sellers) {
 			user.setRoles(rolesSet);
 		}
+		this.sellers = sellers;
 		List<User> saveAll = userRepository.saveAll(sellers);
 		
 		
@@ -58,6 +62,17 @@ public class UserPopulater {
 		userRepository.saveAll(admins);
 		
 		return saveAll;
+		
+	}
+	
+	public void repopulate(List<Company> companies) {
+		for (int i = 0; i < sellers.size(); i++) {
+			User user = sellers.get(i);
+			user.setCompany(companies.get(i));
+			userRepository.save(user);
+			
+			
+		}
 		
 	}
 

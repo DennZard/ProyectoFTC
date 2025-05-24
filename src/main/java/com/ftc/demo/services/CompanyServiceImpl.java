@@ -17,6 +17,7 @@ import com.ftc.demo.mapper.CompanyMapper;
 import com.ftc.demo.mapper.ProductDetailsMapper;
 import com.ftc.demo.mapper.UserLoginMapper;
 import com.ftc.demo.repositories.CompanyRepository;
+import com.ftc.demo.repositories.RolesRepository;
 import com.ftc.demo.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -30,10 +31,11 @@ public class CompanyServiceImpl implements CompanyService {
 	private final CompanyCreateMapper companyCreateMapper;
 	private final UserRepository userRepository;
 	private final UserLoginMapper userLoginMapper;
+	private final RolesRepository rolesRepository;
 
 	public CompanyServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper,
 			ProductDetailsMapper productDetailsMapper, CompanyCreateMapper companyCreateMapper,
-			UserRepository userRepository, UserLoginMapper userLoginMapper) {
+			UserRepository userRepository, UserLoginMapper userLoginMapper, RolesRepository rolesRepository) {
 		super();
 		this.companyRepository = companyRepository;
 		this.companyMapper = companyMapper;
@@ -41,6 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
 		this.companyCreateMapper = companyCreateMapper;
 		this.userRepository = userRepository;
 		this.userLoginMapper = userLoginMapper;
+		this.rolesRepository = rolesRepository;
 	}
 
 	@Override
@@ -79,7 +82,6 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	@Transactional
 	public boolean updateCompany(long id, CompanyCreateDTO companyDTO) throws IllegalArgumentException {
 		if (id == 0)
 			throw new IllegalArgumentException("Id no proporcionado");

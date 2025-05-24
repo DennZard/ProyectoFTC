@@ -50,6 +50,7 @@ public class PopulaterController {
 		List<Employee> employees = employeePopulater.populate();
 		List<User> sellers = userPopulater.populate(roles);
 		List<Company> companies = companyPopulater.populate(sellers);
+		userPopulater.repopulate(companies);
 		List<Product> products = productPopulater.populate(companies, categories);
 		List<Company> repopulate = companyPopulater.repopulate(products);
 		deliveryPopulater.populate(employees, statuses, products);

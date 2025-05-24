@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +41,8 @@ public class User {
 	@NonNull
 	@ManyToMany(cascade = CascadeType.MERGE)
 	private Set<Roles> roles = new HashSet<>();
+	@OneToOne
+	private Company company;
+	
 
 }
