@@ -36,4 +36,6 @@ public class Employee {
 	@NonNull
 	@OneToMany(mappedBy = "employee")
 	private List<Delivery> deliveries=new ArrayList<>();
+	@NonNull
+	private boolean active = true;
 }
