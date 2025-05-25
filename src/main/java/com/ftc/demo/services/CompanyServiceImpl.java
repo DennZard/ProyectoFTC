@@ -2,6 +2,7 @@ package com.ftc.demo.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.UserLoginDTO;
 import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Product;
+import com.ftc.demo.entities.Roles;
 import com.ftc.demo.entities.User;
 import com.ftc.demo.mapper.CompanyCreateMapper;
 import com.ftc.demo.mapper.CompanyMapper;
@@ -23,6 +25,7 @@ import com.ftc.demo.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
+import lombok.NonNull;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -142,13 +145,19 @@ public class CompanyServiceImpl implements CompanyService {
 		try {
 			Optional<User> byUsername = userRepository.findByEmail(companyDTO.owner().email());
 			if (byUsername.isPresent()) {
-				Company company = companyCreateMapper.mapToEntity(companyDTO);
-				company.setOwner(byUsername.get());
-				companyRepository.save(company);
-				return true;
+				User user = byUsername.get();
+				if (companyDTO.owner().password().equals(user.getPassword())) {
+					Company company = companyCreateMapper.mapToEntity(companyDTO);
+					Set<Roles> roles = user.getRoles();
+					roles.add(rolesRepository.findById(3l).get());
+					user.setRoles(roles);
+					company.setOwner(user);
+					companyRepository.save(company);
+					return true;
+				}
+				return false;
 			}
 		} catch (Exception e) {
-			return false;
 		}
 		return false;
 	}
