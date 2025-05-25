@@ -6,10 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftc.demo.DTOs.EmployeeCreateDTO;
 import com.ftc.demo.DTOs.EmployeeDTO;
 import com.ftc.demo.services.EmployeeService;
 
@@ -40,6 +43,19 @@ public class EmployeeController {
 	public ResponseEntity<Boolean> deleteEmployee(@RequestParam long id) {
 		return ResponseEntity.ok().body(employeeService.deleteEmployee(id));
 	}
+	
+	@PostMapping("create")
+	@CrossOrigin("http://localhost:4200/")
+	public ResponseEntity<Boolean> createEmployee(@RequestBody EmployeeCreateDTO dto) {
+		try {
+			return ResponseEntity.ok().body( employeeService.createEmployee(dto));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().eTag("Hubo un fallo inesperado").body(null);
+		}
+		
+		
+	}
+	
 	
 	
 }
