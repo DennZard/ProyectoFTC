@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -28,9 +27,8 @@ public class Company {
 	@Column(unique = true)
 	private String name;
 	@NonNull
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "owner_id")
+	@OneToOne
 	private User owner;
-	@OneToMany(mappedBy = "company")
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
 	private List<Product> products;
 }

@@ -39,9 +39,9 @@ public class User {
 	@NonNull
 	private String phone;
 	@NonNull
-	@ManyToMany(cascade = CascadeType.MERGE)
+	@ManyToMany
 	private Set<Roles> roles = new HashSet<>();
-	@OneToOne
+	@OneToOne(cascade =  CascadeType.ALL)
 	private Company company;
 	
 

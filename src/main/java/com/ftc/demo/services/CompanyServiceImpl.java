@@ -22,6 +22,7 @@ import com.ftc.demo.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -89,16 +90,12 @@ public class CompanyServiceImpl implements CompanyService {
 			Optional<Company> companyOptional = companyRepository.findById(id);
 			if (companyOptional.isPresent()) {
 				Company company = companyCreateMapper.mapToEntity(companyDTO);
-
-				Optional<User> byUsername = userRepository.findByEmail(companyDTO.owner().email());
-				if (byUsername.isPresent()) {
-					User owner = byUsername.get();
-//					User user = new User(owner.getId(), owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone(), owner.getRoles());
-//					User user = new User(owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getPhone());
+				Optional<User> byEmail = userRepository.findByEmail(companyDTO.owner().email());
+				if (byEmail.isPresent()) {
+					User owner = byEmail.get();
 					company.setOwner(owner);
-//					company.setId(0);
+					company.setId(companyOptional.get().getId());
 					Optional<Boolean> map = companyOptional.map((comp) -> {
-						companyRepository.delete(comp);
 						companyRepository.save(company);
 						return true;
 					});
@@ -107,9 +104,8 @@ public class CompanyServiceImpl implements CompanyService {
 					}
 				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getCause());
+		} catch (ConstraintViolationException e) {
+			return false;
 		}
 		return false;
 	}
