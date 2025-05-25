@@ -98,12 +98,13 @@ public class CompanyServiceImpl implements CompanyService {
 					User owner = byEmail.get();
 					company.setOwner(owner);
 					company.setId(companyOptional.get().getId());
-					Optional<Boolean> map = companyOptional.map((comp) -> {
-						companyRepository.save(company);
-						return true;
+					Optional<Company> map = companyOptional.map((comp) -> {
+						return companyRepository.save(company);
 					});
 					if (map.isPresent()) {
-						return map.get();
+						owner.setCompany(map.get());
+						userRepository.save(owner);
+						return true;
 					}
 				}
 			}
@@ -141,23 +142,27 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public boolean saveCompany(CompanyCreateDTO companyDTO) throws IllegalArgumentException {
-		try {
-			Optional<User> byUsername = userRepository.findByEmail(companyDTO.owner().email());
-			if (byUsername.isPresent()) {
-				User user = byUsername.get();
+	public boolean saveCompany(CompanyCreateDTO companyDTO) throws IllegalArgumentException, IllegalStateException {
+		Optional<User> byUsername = userRepository.findByEmail(companyDTO.owner().email());
+		if (byUsername.isPresent()) {
+			User user = byUsername.get();
+			if (user.getCompany() != null) throw new IllegalStateException("El usuario ya tiene una compañia");
+			try {
 				if (companyDTO.owner().password().equals(user.getPassword())) {
 					Company company = companyCreateMapper.mapToEntity(companyDTO);
 					Set<Roles> roles = user.getRoles();
 					roles.add(rolesRepository.findById(3l).get());
 					user.setRoles(roles);
 					company.setOwner(user);
-					companyRepository.save(company);
+					Company save = companyRepository.save(company);
+					user.setCompany(save);
+					userRepository.save(user);
+					
 					return true;
 				}
 				return false;
+			} catch (Exception e) {
 			}
-		} catch (Exception e) {
 		}
 		return false;
 	}

@@ -94,7 +94,7 @@ public class CompanyControllerImpl implements CompanyController {
 			boolean saveCompany = companyService.saveCompany(companyDTO);
 			return ResponseEntity.ok().body(saveCompany);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(false);
 		}
 
 	}
@@ -102,7 +102,7 @@ public class CompanyControllerImpl implements CompanyController {
 	@Override
 	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("products")
-	public ResponseEntity<List<ProductDetailsDTO>> getProducts(@RequestParam long companyId, @RequestBody UserLoginDTO user) {
+	public ResponseEntity<List<ProductDetailsDTO>> getProducts(@RequestParam long companyId) {
 		try {
 			List<ProductDetailsDTO> products = companyService.getProducts(companyId);
 			if (!products.isEmpty()) {
