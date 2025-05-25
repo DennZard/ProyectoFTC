@@ -1,5 +1,5 @@
 package com.ftc.demo.DTOs;
 
-public record UserDTO(String name, String email) {
+public record UserDTO(String username, String email) {
 
 }

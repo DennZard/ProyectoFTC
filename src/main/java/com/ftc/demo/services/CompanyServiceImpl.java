@@ -130,10 +130,14 @@ public class CompanyServiceImpl implements CompanyService {
 		if (id == 0)
 			throw new IllegalArgumentException("Id no proporcionado");
 		try {
-			Optional<Company> company = companyRepository.findById(id);
-			if (company.isPresent()) {
+			Optional<Company> companyOpt = companyRepository.findById(id);
+			if (companyOpt.isPresent()) {
+				Company company = companyOpt.get();
+				User owner = company.getOwner();
+				owner.setCompany(null);
+				userRepository.save(owner);
 				companyRepository.deleteById(id);
-				return Optional.of(companyMapper.mapToDto(company.get()));
+				return Optional.of(companyMapper.mapToDto(company));
 			}
 		} catch (Exception e) {
 			return Optional.empty();
