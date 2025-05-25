@@ -12,4 +12,5 @@ public interface DeliveryService {
 	public Optional<DeliveryDTO> createDelivery(DeliveryCreateDTO deliveryDTO);
 	public Boolean changeStatus(long id, long StatusId);
 	public Boolean deleteDelivery(long id );
+	public List<DeliveryDTO> getByCustomer(long id);
 }

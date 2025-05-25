@@ -61,7 +61,7 @@ public class DeliveryControllerImpl implements DeliveryController{
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
 		}
 	}
-
+	
 	@Override
 	@CrossOrigin("http://localhost:4200/")
 	@PostMapping("create")
@@ -88,6 +88,18 @@ public class DeliveryControllerImpl implements DeliveryController{
 			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
 		}
 		
+	}
+
+
+	@Override
+	@CrossOrigin("http://localhost:4200/")
+	@GetMapping("customer")
+	public ResponseEntity<List<DeliveryDTO>> getDeliveriesByCustomer(@RequestParam long id) {
+		List<DeliveryDTO> byCustomer = deliveryService.getByCustomer(id);
+		if (!byCustomer.isEmpty()) {
+			return ResponseEntity.ok().body(byCustomer);
+		}
+		return ResponseEntity.badRequest().eTag("No se pudo obtener los pedidos del usuario").body(byCustomer);
 	}
 
 }

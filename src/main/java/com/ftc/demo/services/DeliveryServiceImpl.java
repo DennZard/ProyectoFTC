@@ -72,6 +72,11 @@ public class DeliveryServiceImpl implements DeliveryService {
 		}
 		return false;
 	}
+
+	@Override
+	public List<DeliveryDTO> getByCustomer(long userId) {
+		return deliveryRepository.findByCustomerId(userId).stream().map(deliveryMapper::mapToDto).toList();
+	}
 	
 	
 
