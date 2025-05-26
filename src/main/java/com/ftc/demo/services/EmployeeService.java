@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ftc.demo.DTOs.EmployeeCreateDTO;
 import com.ftc.demo.DTOs.EmployeeDTO;
+import com.ftc.demo.DTOs.EmployeeLoginDTO;
 import com.ftc.demo.entities.Employee;
 import com.ftc.demo.mapper.EmployeeCreateMapper;
 import com.ftc.demo.mapper.EmployeeMapper;
@@ -18,7 +19,6 @@ public class EmployeeService {
 	private final EmployeeRepository employeeRepository;
 	private final EmployeeMapper employeeMapper;
 	private final EmployeeCreateMapper employeeCreateMapper;
-	
 	
 	
 	public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EmployeeCreateMapper employeeCreateMapper) {
@@ -51,6 +51,18 @@ public class EmployeeService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public Optional<EmployeeDTO> login(EmployeeLoginDTO employeeLoginDTO) {
+		Optional<Employee> byEmail = employeeRepository.findByEmail(employeeLoginDTO.email());
+		if (byEmail.isPresent()) {
+			Employee employee = byEmail.get();
+			if (employee.getPhone().equals(employeeLoginDTO.phone())) {
+				return Optional.of(employeeMapper.mapToDto(employee));
+			}
+		}
+		return Optional.empty();
+		
 	}
 	
 }

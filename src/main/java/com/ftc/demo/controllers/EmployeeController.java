@@ -1,6 +1,7 @@
 package com.ftc.demo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftc.demo.DTOs.EmployeeCreateDTO;
 import com.ftc.demo.DTOs.EmployeeDTO;
+import com.ftc.demo.DTOs.EmployeeLoginDTO;
 import com.ftc.demo.services.EmployeeService;
 
 @RestController
@@ -52,8 +54,16 @@ public class EmployeeController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().eTag("Hubo un fallo inesperado").body(null);
 		}
-		
-		
+	}
+	
+	@PostMapping("login")
+	@CrossOrigin("http://localhost:4200/")
+	public ResponseEntity<EmployeeDTO> logEmployee(@RequestBody EmployeeLoginDTO dto) {
+		Optional<EmployeeDTO> login = employeeService.login(dto);
+		if (login.isPresent()) {
+			return ResponseEntity.ok().body(login.get());
+		}
+		return ResponseEntity.badRequest().eTag("No se encontro al empleado").body(null);
 	}
 	
 	
