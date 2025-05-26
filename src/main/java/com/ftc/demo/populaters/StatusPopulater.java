@@ -21,10 +21,10 @@ public class StatusPopulater {
 
 	public List<Status> populate() {
 		List<Status> statuses = List.of(
-				new Status("Abierto"),
-				new Status("En proceso"),
-				new Status("Completado"),
-				new Status("Cancelado")
+				new Status("Abierto", true),
+				new Status("En proceso", true),
+				new Status("Completado", false),
+				new Status("Cancelado", false)
 		);
 		return statusRepository.saveAll(statuses);
 	}

@@ -31,4 +31,6 @@ public class Company {
 	private User owner;
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
 	private List<Product> products;
+	@NonNull
+	private boolean active = true;
 }

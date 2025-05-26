@@ -22,4 +22,15 @@ public class Status {
 	@NonNull
 	@Column(unique = true)
 	private String name;
+	@NonNull
+	private Boolean cancelable = true;
+	
+	
+	public Status(@NonNull String name, @NonNull Boolean cancelable) {
+		super();
+		this.name = name;
+		this.cancelable = cancelable;
+	}
+	
+	
 }
