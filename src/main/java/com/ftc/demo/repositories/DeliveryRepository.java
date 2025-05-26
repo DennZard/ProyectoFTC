@@ -10,4 +10,5 @@ import com.ftc.demo.entities.Delivery;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long>{
 	List<Delivery> findByCustomerId(Long customerId);
+	List<Delivery> findByEmployeeId(Long customerId);
 }

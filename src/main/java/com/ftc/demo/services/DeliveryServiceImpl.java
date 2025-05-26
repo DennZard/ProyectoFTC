@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import com.ftc.demo.DTOs.DeliveryCreateDTO;
 import com.ftc.demo.DTOs.DeliveryDTO;
 import com.ftc.demo.entities.Delivery;
+import com.ftc.demo.entities.Status;
 import com.ftc.demo.mapper.DeliveryCreateMapper;
 import com.ftc.demo.mapper.DeliveryMapper;
 import com.ftc.demo.repositories.DeliveryRepository;
+import com.ftc.demo.repositories.StatusRepository;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
@@ -18,12 +20,15 @@ public class DeliveryServiceImpl implements DeliveryService {
 	private final DeliveryRepository deliveryRepository;
 	private final DeliveryMapper deliveryMapper;
 	private final DeliveryCreateMapper deliveryCreateMapper;
+	private final StatusRepository statusRepository;
 	
-	protected DeliveryServiceImpl(DeliveryRepository deliveryRepository, DeliveryMapper deliveryMapper, DeliveryCreateMapper deliveryCreateMapper) {
+	protected DeliveryServiceImpl(DeliveryRepository deliveryRepository, DeliveryMapper deliveryMapper, DeliveryCreateMapper deliveryCreateMapper, StatusRepository statusRepository) {
 		super();
 		this.deliveryRepository = deliveryRepository;
 		this.deliveryMapper = deliveryMapper;
 		this.deliveryCreateMapper = deliveryCreateMapper;
+		this.statusRepository = statusRepository
+				;
 	}
 
 	@Override
@@ -55,8 +60,22 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public Boolean changeStatus(long id, long StatusId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (id == 0) throw new IllegalArgumentException("Id no proporcionado");
+		try {
+			Optional<Delivery> deliveryOpt = deliveryRepository.findById(id);
+			if (deliveryOpt.isPresent()) {
+				Delivery delivery = deliveryOpt.get();
+				Optional<Status> statusOpt = statusRepository.findById(StatusId);
+				if (statusOpt.isPresent()) {
+					delivery.setStatus(statusOpt.get());
+					deliveryRepository.save(delivery);
+					return true;
+				}
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
 	}
 
 	@Override
@@ -76,6 +95,11 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public List<DeliveryDTO> getByCustomer(long userId) {
 		return deliveryRepository.findByCustomerId(userId).stream().map(deliveryMapper::mapToDto).toList();
+	}
+	
+	@Override
+	public List<DeliveryDTO> getByEmployee(long userId) {
+		return deliveryRepository.findByEmployeeId(userId).stream().map(deliveryMapper::mapToDto).toList();
 	}
 	
 	

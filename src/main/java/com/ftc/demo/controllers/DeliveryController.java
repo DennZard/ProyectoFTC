@@ -15,5 +15,6 @@ public interface DeliveryController {
 	public ResponseEntity<Boolean> deleteDelivery(long id );
 	public ResponseEntity<Boolean> changeStatus(DeliveryChangeStatusDTO deliveryDTO);
 	public ResponseEntity<List<DeliveryDTO>> getDeliveriesByCustomer(long id);
+	public ResponseEntity<List<DeliveryDTO>> getDeliveriesByEmployee(long id);
 
 }

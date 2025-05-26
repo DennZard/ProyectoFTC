@@ -74,8 +74,11 @@ public class DeliveryControllerImpl implements DeliveryController{
 	@CrossOrigin("http://localhost:4200/")
 	@PutMapping("update")
 	public ResponseEntity<Boolean> changeStatus(@RequestBody DeliveryChangeStatusDTO deliveryDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return ResponseEntity.ok().body(deliveryService.changeStatus(deliveryDTO.id(), deliveryDTO.StatusId()));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().eTag(e.getMessage()).body(null);
+		}
 	}
 
 	@Override
@@ -90,6 +93,17 @@ public class DeliveryControllerImpl implements DeliveryController{
 		
 	}
 
+	@Override
+	@CrossOrigin("http://localhost:4200/")
+	@GetMapping("employee")
+	public ResponseEntity<List<DeliveryDTO>> getDeliveriesByEmployee(@RequestParam long id) {
+		List<DeliveryDTO> byCustomer = deliveryService.getByEmployee(id);
+		if (!byCustomer.isEmpty()) {
+			return ResponseEntity.ok().body(byCustomer);
+		}
+		return ResponseEntity.badRequest().eTag("No se pudo obtener los pedidos del usuario").body(byCustomer);
+	}
+	
 
 	@Override
 	@CrossOrigin("http://localhost:4200/")
