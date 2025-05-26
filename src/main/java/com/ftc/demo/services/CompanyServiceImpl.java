@@ -136,10 +136,13 @@ public class CompanyServiceImpl implements CompanyService {
 				User owner = company.getOwner();
 				owner.setCompany(null);
 				userRepository.save(owner);
-				companyRepository.deleteById(id);
+				company.setActive(false);
+				company.setOwner(null);
+				companyRepository.save(company);
 				return Optional.of(companyMapper.mapToDto(company));
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage()); 
 			return Optional.empty();
 		}
 		return Optional.empty();

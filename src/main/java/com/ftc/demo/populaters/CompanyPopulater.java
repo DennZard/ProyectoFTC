@@ -28,10 +28,14 @@ public class CompanyPopulater {
 
 	public List<Company> populate(List<User> sellers) {
 		of = List.of(
-			new Company("Company1", sellers.get(0)),	
-			new Company("Company2", sellers.get(1)),	
-			new Company("Company3", sellers.get(2))	
+			new Company("Company1"),	
+			new Company("Company2"),	
+			new Company("Company3")	
 		);
+		for (int i = 0; i < of.size(); i++) {
+			of.get(i).setOwner(sellers.get(i));
+			
+		}
 		return companyRepository.saveAll(of);
 	}
 	

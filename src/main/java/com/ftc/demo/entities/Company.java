@@ -26,7 +26,6 @@ public class Company {
 	@NonNull
 	@Column(unique = true)
 	private String name;
-	@NonNull
 	@OneToOne
 	private User owner;
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)

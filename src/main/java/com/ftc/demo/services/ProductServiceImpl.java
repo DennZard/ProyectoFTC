@@ -136,9 +136,10 @@ public class ProductServiceImpl implements ProductService {
 		if (all.isEmpty()) {
 			return new ArrayList<>();
 		} else {
-			return all.stream()
-					.map(productSummaryMapper::mapToDTO)
-					.toList();
+			return all.stream().filter(
+					prod -> prod.getCompany().isActive())
+				.map(productSummaryMapper::mapToDTO)
+				.toList();
 		}
 	}
 
