@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ftc.demo.DTOs.DeliveryCreateDTO;
 import com.ftc.demo.DTOs.ProductBuyDTO;
 import com.ftc.demo.DTOs.ProductCreateDTO;
 import com.ftc.demo.DTOs.ProductDTO;
@@ -31,8 +32,9 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductCreateMapper productCreateMapper;
 	private final CategoryRepository categoryRepository;
 	private final CompanyRepository companyRepository;
+	private final DeliveryServiceImpl deliveryServiceImpl;
 	
-	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper, ProductCreateMapper productCreateMapper, CompanyRepository companyRepository, CategoryRepository categoryRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper, ProductCreateMapper productCreateMapper, CompanyRepository companyRepository, CategoryRepository categoryRepository, DeliveryServiceImpl deliveryServiceImpl) {
 		super();
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
@@ -41,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
 		this.productCreateMapper = productCreateMapper;
 		this.categoryRepository = categoryRepository;
 		this.companyRepository = companyRepository;
+		this.deliveryServiceImpl = deliveryServiceImpl;
 	}
 	
 	@Override
@@ -161,6 +164,7 @@ public class ProductServiceImpl implements ProductService {
 		prod.setStock(prod.getStock()-1);
 		prod.setSells(prod.getSells()+1);
 		productRepository.save(prod);
+		deliveryServiceImpl.createDelivery(new DeliveryCreateDTO(productDTO.userId(), productDTO.destination(), productDTO.id()));
 		return true;
 	}
 

@@ -1,6 +1,6 @@
 package com.ftc.demo.DTOs;
 
 
-public record DeliveryCreateDTO(String username, String destination, long productId) {
+public record DeliveryCreateDTO(long userId, String destination, long productId) {
 
 }
