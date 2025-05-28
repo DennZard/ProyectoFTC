@@ -168,6 +168,11 @@ public class ProductServiceImpl implements ProductService {
 		return true;
 	}
 
+	@Override
+	public List<ProductSummaryDTO> getThreeMostSells() {
+		return productRepository.findTop3ByOrderBySellsDesc().stream().map(productSummaryMapper::mapToDTO).toList();
+	}
+
 
 
 	

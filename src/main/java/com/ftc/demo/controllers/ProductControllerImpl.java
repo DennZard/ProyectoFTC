@@ -146,6 +146,17 @@ public class ProductControllerImpl implements ProductController {
 		return ResponseEntity.badRequest().eTag("No se encontro el producto").body(null);
 	}
 
+	@GetMapping("popular")
+	@CrossOrigin("http://localhost:4200/")
+	@Override
+	public ResponseEntity<List<ProductSummaryDTO>> getMostThreeSelled() {
+		List<ProductSummaryDTO> threeMostSells = productService.getThreeMostSells();
+		if (!threeMostSells.isEmpty()) {
+			return ResponseEntity.ok().body(threeMostSells);
+		}
+		return ResponseEntity.badRequest().body(null);
+	}
+
 	
 
 	

@@ -17,7 +17,9 @@ public interface ProductService {
 	public boolean updateProduct(ProductDTO productoDTO);
 	public Optional<ProductDTO> deleteProduct(long id);
 	public Optional<ProductDTO> getProduct(long id);
-	//TODO El manejo de excepciones
 	public boolean buyProduct(ProductBuyDTO product) throws IllegalArgumentException;
 	public boolean saveProduct(ProductCreateDTO productDTO) throws Exception;
+	public List<ProductSummaryDTO> getThreeMostSells();
+	
+	
 }
