@@ -2,6 +2,10 @@ package com.ftc.demo.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,6 +31,7 @@ public class Company {
 	@Column(unique = true)
 	private String name;
 	@OneToOne
+	@JsonBackReference
 	private User owner;
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
 	private List<Product> products;

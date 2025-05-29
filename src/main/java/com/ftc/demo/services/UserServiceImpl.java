@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ftc.demo.DTOs.UserDataDTO;
 import com.ftc.demo.DTOs.UserLoginDTO;
 import com.ftc.demo.DTOs.UserRegisterDTO;
 import com.ftc.demo.entities.Roles;
 import com.ftc.demo.entities.User;
+import com.ftc.demo.mapper.UserDataMapper;
 import com.ftc.demo.mapper.UserLoginMapper;
 import com.ftc.demo.mapper.UserRegisterMapper;
 import com.ftc.demo.repositories.RolesRepository;
@@ -21,13 +23,15 @@ public class UserServiceImpl implements UserService {
 	private final UserRegisterMapper userRegisterMapper;
 	private final UserLoginMapper userLoginMapper;
 	private final RolesRepository rolesRepository;
+	private final UserDataMapper userDataMapper;
 	
-	public UserServiceImpl(UserRepository userRepository, UserRegisterMapper userRegisterMapper, UserLoginMapper userLoginMapper, RolesRepository rolesRepository) {
+	public UserServiceImpl(UserRepository userRepository, UserRegisterMapper userRegisterMapper, UserLoginMapper userLoginMapper, RolesRepository rolesRepository, UserDataMapper userDataMapper) {
 		super();
 		this.userRepository = userRepository;
 		this.userRegisterMapper = userRegisterMapper;
 		this.userLoginMapper = userLoginMapper;
 		this.rolesRepository = rolesRepository;
+		this.userDataMapper = userDataMapper;
 	}
 
 	@Override
@@ -54,7 +58,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> login(UserLoginDTO userLoginDTO) {
+	public Optional<UserDataDTO> login(UserLoginDTO userLoginDTO) {
 		if (userLoginDTO.email() == null || userLoginDTO.password() == null ) 
 			throw new IllegalArgumentException("Debes proporcionar todos los valores"); 
 		try {
@@ -62,7 +66,7 @@ public class UserServiceImpl implements UserService {
 			if (byUsername.isPresent()) {
 				User user = byUsername.get();
 				if (user.getEmail().equals(userLoginDTO.email()) && user.getPassword().equals(userLoginDTO.password())) {
-					return Optional.of(user);
+					return Optional.of(userDataMapper.mapToDTO(user));
 				}
 			}
 		} catch (Exception e) {

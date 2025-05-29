@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftc.demo.DTOs.UserDataDTO;
 import com.ftc.demo.DTOs.UserLoginDTO;
 import com.ftc.demo.DTOs.UserRegisterDTO;
 import com.ftc.demo.entities.Response;
@@ -47,7 +48,7 @@ public class UserControllerImpl implements UserController{
 	@CrossOrigin("http://localhost:4200/")
 	@PostMapping("login")
 	public ResponseEntity<Response> login(@RequestBody UserLoginDTO userLoginDTO) {
-		Optional<User> login = userService.login(userLoginDTO);
+		Optional<UserDataDTO> login = userService.login(userLoginDTO);
 		try {
 			if (login.isPresent()) {
 				
