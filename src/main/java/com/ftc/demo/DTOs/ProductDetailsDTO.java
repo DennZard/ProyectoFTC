@@ -4,6 +4,6 @@ import java.sql.Date;
 
 
 public record ProductDetailsDTO(String name, CategoryDTO category,
-		float price, Date added, CompanyDTO company, int sells, String image) {
+		float price, Date added, CompanyDTO company, int sells, String image, int stock) {
 
 }
