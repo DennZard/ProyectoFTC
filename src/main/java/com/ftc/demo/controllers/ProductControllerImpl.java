@@ -63,7 +63,7 @@ public class ProductControllerImpl implements ProductController {
 	@Override
 	@CrossOrigin("http://localhost:4200/")
 	@GetMapping("prefix")
-	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(@RequestParam String prefix) {
+	public ResponseEntity<List<ProductSummaryDTO>> getByPrefix(@RequestParam(required=false) String prefix) {
 		try {
 			List<ProductSummaryDTO> products = productService.getByPrefix(prefix);
 			if (!products.isEmpty()) {

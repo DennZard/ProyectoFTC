@@ -59,7 +59,6 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<ProductSummaryDTO> getByPrefix(String prefix) throws IllegalArgumentException {
-		if (prefix == null || prefix == "" || prefix == " ") throw new IllegalArgumentException("Debes proporcionar un prefijo");
 		List<Product> products = productRepository.findByNameIgnoreCaseStartingWith(prefix);
 		if (!products.isEmpty()) {
 			return products
