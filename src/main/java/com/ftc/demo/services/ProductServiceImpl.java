@@ -14,6 +14,7 @@ import com.ftc.demo.DTOs.ProductCreateDTO;
 import com.ftc.demo.DTOs.ProductDTO;
 import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
+import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Product;
 import com.ftc.demo.mapper.ProductCreateMapper;
 import com.ftc.demo.mapper.ProductDetailsMapper;
@@ -112,10 +113,13 @@ public class ProductServiceImpl implements ProductService {
 		if (productDTO.companyId() == 0) throw new IllegalArgumentException("No se proporciona id para la compañia");
 		try {
 			Product product = productCreateMapper.mapToEntity(productDTO);
-			product.setCategory(categoryRepository.findById(productDTO.categoryId()).get() );
-			product.setCompany(companyRepository.findById(productDTO.companyId()).get());
+			product.setCategory(categoryRepository.findById(productDTO.categoryId()).get());
+			Company company = companyRepository.findById(productDTO.companyId()).get();
+			product.setCompany(company);
 			product.setAdded(Date.valueOf(LocalDate.now()));
 			productRepository.save(product);
+			company.getProducts().add(product);
+			companyRepository.save(company);
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
