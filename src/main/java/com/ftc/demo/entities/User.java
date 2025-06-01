@@ -43,6 +43,8 @@ public class User {
 	@NonNull
 	private String phone;
 	@NonNull
+	private float money;
+	@NonNull
 	@ManyToMany
 	private Set<Roles> roles = new HashSet<>();
 	@OneToOne(cascade =  CascadeType.ALL)

@@ -16,6 +16,7 @@ import com.ftc.demo.DTOs.ProductDetailsDTO;
 import com.ftc.demo.DTOs.ProductSummaryDTO;
 import com.ftc.demo.entities.Company;
 import com.ftc.demo.entities.Product;
+import com.ftc.demo.entities.User;
 import com.ftc.demo.mapper.ProductCreateMapper;
 import com.ftc.demo.mapper.ProductDetailsMapper;
 import com.ftc.demo.mapper.ProductMapper;
@@ -23,6 +24,7 @@ import com.ftc.demo.mapper.ProductSummaryMapper;
 import com.ftc.demo.repositories.CategoryRepository;
 import com.ftc.demo.repositories.CompanyRepository;
 import com.ftc.demo.repositories.ProductRepository;
+import com.ftc.demo.repositories.UserRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -34,8 +36,9 @@ public class ProductServiceImpl implements ProductService {
 	private final CategoryRepository categoryRepository;
 	private final CompanyRepository companyRepository;
 	private final DeliveryServiceImpl deliveryServiceImpl;
+	private final UserRepository userRepository;
 	
-	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper, ProductCreateMapper productCreateMapper, CompanyRepository companyRepository, CategoryRepository categoryRepository, DeliveryServiceImpl deliveryServiceImpl) {
+	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductSummaryMapper productSummaryMapper, ProductDetailsMapper productDetailsMapper, ProductCreateMapper productCreateMapper, CompanyRepository companyRepository, CategoryRepository categoryRepository, DeliveryServiceImpl deliveryServiceImpl, UserRepository userRepository) {
 		super();
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
@@ -45,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
 		this.categoryRepository = categoryRepository;
 		this.companyRepository = companyRepository;
 		this.deliveryServiceImpl = deliveryServiceImpl;
+		this.userRepository = userRepository;
 	}
 	
 	@Override
@@ -152,22 +156,27 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public boolean buyProduct(ProductBuyDTO productDTO) throws IllegalArgumentException{
 		if (productDTO.id() == 0) throw new IllegalArgumentException("No se proporciona id");
-		if (productDTO.money() <= 0) throw new IllegalArgumentException("El dinero proporcionado no puede ser 0 o inferior");
+		if (productDTO.userId() == 0) throw new IllegalArgumentException("No hay ningun usuario");
 		Optional<Product> product = productRepository.findById(productDTO.id());
-		Product prod = product.get();
-		if (product.isPresent()) {
-			Product product2 = prod;
-			if (product2.getStock() <= 0) {
-				return false;
+		Optional<User> byId = userRepository.findById(productDTO.userId());
+		if (byId.isPresent()) {
+			User user = byId.get();
+			if (product.isPresent()) {
+				Product prod = product.get();
+				if (prod.getStock() <= 0) {
+					return false;
+				}
+				if (prod.getPrice() > user.getMoney()) {
+					return false;
+				}
+				prod.setStock(prod.getStock()-1);
+				prod.setSells(prod.getSells()+1);
+				user.setMoney(user.getMoney()-prod.getPrice());
+				userRepository.save(user);
+				productRepository.save(prod);
+				deliveryServiceImpl.createDelivery(new DeliveryCreateDTO(productDTO.userId(), productDTO.destination(), productDTO.id()));
 			}
-			if (product2.getPrice() > productDTO.money()) {
-				return false;
-			} 
 		}
-		prod.setStock(prod.getStock()-1);
-		prod.setSells(prod.getSells()+1);
-		productRepository.save(prod);
-		deliveryServiceImpl.createDelivery(new DeliveryCreateDTO(productDTO.userId(), productDTO.destination(), productDTO.id()));
 		return true;
 	}
 

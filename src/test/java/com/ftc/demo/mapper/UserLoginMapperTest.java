@@ -22,7 +22,7 @@ class UserLoginMapperTest {
 	@Test
 	void testMapToDTO() {
 		System.out.println();
-		UserLoginDTO mapToDTO = userLoginMapper.mapToDTO(new User("juanito@gmail", "Juantio", "12314", "124123"));
+		UserLoginDTO mapToDTO = userLoginMapper.mapToDTO(new User("juanito@gmail", "Juantio", "12314", "124123", 0));
 		System.out.println();
 	}
 

@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 			if (rol.isPresent()) {
 				roles.add(rol.get());
 				User user = new User(userRegisterDTO.email(), userRegisterDTO.username(),
-						userRegisterDTO.password(), userRegisterDTO.phone());
+						userRegisterDTO.password(), userRegisterDTO.phone(), 0);
 				user.setRoles(roles);
 				userRepository.save(user);
 				return Optional.of(userLoginMapper.mapToDTO(user));
