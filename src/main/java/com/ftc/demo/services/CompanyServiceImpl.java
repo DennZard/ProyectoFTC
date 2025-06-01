@@ -21,6 +21,7 @@ import com.ftc.demo.mapper.UserLoginMapper;
 import com.ftc.demo.repositories.CompanyRepository;
 import com.ftc.demo.repositories.RolesRepository;
 import com.ftc.demo.repositories.UserRepository;
+import com.ftc.demo.security.BCryptService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -36,10 +37,11 @@ public class CompanyServiceImpl implements CompanyService {
 	private final UserRepository userRepository;
 	private final UserLoginMapper userLoginMapper;
 	private final RolesRepository rolesRepository;
+	private final BCryptService bCryptService;
 
 	public CompanyServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper,
 			ProductDetailsMapper productDetailsMapper, CompanyCreateMapper companyCreateMapper,
-			UserRepository userRepository, UserLoginMapper userLoginMapper, RolesRepository rolesRepository) {
+			UserRepository userRepository, UserLoginMapper userLoginMapper, RolesRepository rolesRepository, BCryptService bCryptService) {
 		super();
 		this.companyRepository = companyRepository;
 		this.companyMapper = companyMapper;
@@ -48,6 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
 		this.userRepository = userRepository;
 		this.userLoginMapper = userLoginMapper;
 		this.rolesRepository = rolesRepository;
+		this.bCryptService = bCryptService;
 	}
 
 	@Override
@@ -117,7 +120,7 @@ public class CompanyServiceImpl implements CompanyService {
 	private boolean checkUser(Company company, UserLoginDTO login, Optional<User> userOpt) {
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
-			if (login.password().equals(user.getPassword()) && user.getEmail().equals(login.email())) {
+			if (bCryptService.verifyPassword(login.password(), user.getPassword()) && user.getEmail().equals(login.email())) {
 				company.setOwner(user);
 				return true;
 			}
@@ -155,7 +158,7 @@ public class CompanyServiceImpl implements CompanyService {
 			User user = byUsername.get();
 			if (user.getCompany() != null) throw new IllegalStateException("El usuario ya tiene una compañia");
 			try {
-				if (companyDTO.owner().password().equals(user.getPassword())) {
+				if (bCryptService.verifyPassword(companyDTO.owner().password(), user.getPassword())) {
 					Company company = companyCreateMapper.mapToEntity(companyDTO);
 					Set<Roles> roles = user.getRoles();
 					roles.add(rolesRepository.findById(3l).get());
