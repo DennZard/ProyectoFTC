@@ -15,6 +15,7 @@ import com.ftc.demo.mapper.UserLoginMapper;
 import com.ftc.demo.mapper.UserRegisterMapper;
 import com.ftc.demo.repositories.RolesRepository;
 import com.ftc.demo.repositories.UserRepository;
+import com.ftc.demo.security.BCryptService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,14 +25,16 @@ public class UserServiceImpl implements UserService {
 	private final UserLoginMapper userLoginMapper;
 	private final RolesRepository rolesRepository;
 	private final UserDataMapper userDataMapper;
+	private final BCryptService bCryptService;
 	
-	public UserServiceImpl(UserRepository userRepository, UserRegisterMapper userRegisterMapper, UserLoginMapper userLoginMapper, RolesRepository rolesRepository, UserDataMapper userDataMapper) {
+	public UserServiceImpl(UserRepository userRepository, UserRegisterMapper userRegisterMapper, UserLoginMapper userLoginMapper, RolesRepository rolesRepository, UserDataMapper userDataMapper, BCryptService bCryptService) {
 		super();
 		this.userRepository = userRepository;
 		this.userRegisterMapper = userRegisterMapper;
 		this.userLoginMapper = userLoginMapper;
 		this.rolesRepository = rolesRepository;
 		this.userDataMapper = userDataMapper;
+		this.bCryptService = bCryptService;
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService {
 			if (rol.isPresent()) {
 				roles.add(rol.get());
 				User user = new User(userRegisterDTO.email(), userRegisterDTO.username(),
-						userRegisterDTO.password(), userRegisterDTO.phone(), 0);
+						bCryptService.hashPassword(userRegisterDTO.password()), userRegisterDTO.phone(), 0);
 				user.setRoles(roles);
 				userRepository.save(user);
 				return Optional.of(userLoginMapper.mapToDTO(user));
@@ -65,7 +68,7 @@ public class UserServiceImpl implements UserService {
 			Optional<User> byUsername = userRepository.findByEmail(userLoginDTO.email());
 			if (byUsername.isPresent()) {
 				User user = byUsername.get();
-				if (user.getEmail().equals(userLoginDTO.email()) && user.getPassword().equals(userLoginDTO.password())) {
+				if (user.getEmail().equals(userLoginDTO.email()) && bCryptService.verifyPassword(userLoginDTO.password(),user.getPassword())) {
 					return Optional.of(userDataMapper.mapToDTO(user));
 				}
 			}
